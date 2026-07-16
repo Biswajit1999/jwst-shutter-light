@@ -1,0 +1,51 @@
+project_title: "JWST/NIRSpec Micro-Shutter Throughput Loss Sandbox"
+repository: "jwst-nirspec-msa-throughput-sandbox"
+author: "Biswajit Jana"
+data_mode: "official instrument parameters + synthetic Monte Carlo"
+created_utc: "2026-07-13T09:46:17.404972+00:00"
+
+source_products:
+  # Full 8-row table with URLs, sha256 and licence/terms lives in
+  # data/manifest.csv; this list mirrors the product_id/source/selection_reason
+  # only, for a human-readable summary in this file.
+  - product_id: shutter_pitch_mas
+    source: "Ferruit et al. 2022, arXiv:2202.03306, Sec 2.2"
+    selection_reason: "MSA shutter pitch (dispersion x spatial), on-sky field-averaged"
+  - product_id: shutter_open_area_mas
+    source: "Ferruit et al. 2022, arXiv:2202.03306, Sec 2.2"
+    selection_reason: "MSA shutter open aperture, on-sky"
+  - product_id: msa_array_layout
+    source: "Ferruit et al. 2022, arXiv:2202.03306, Sec 2.2"
+    selection_reason: "4 quadrants x 365x171 shutters = 249660 total"
+  - product_id: shutter_operability_fraction
+    source: "Rawle et al. 2022, arXiv:2208.04673, abstract"
+    selection_reason: "In-flight operability fraction (82.5%), default Monte Carlo shutter-open probability"
+  - product_id: nirspec_wavelength_range_um
+    source: "Ferruit et al. 2022, arXiv:2202.03306"
+    selection_reason: "NIRSpec operating wavelength range 0.6-5.3 um"
+  - product_id: psf_fwhm_anchor_2p5um
+    source: "Jakobsen et al. 2022, arXiv:2202.03305"
+    selection_reason: "PSF FWHM=80 mas @ 2.5 um anchor, diffraction limit onset 2.46 um"
+  - product_id: jwst_mirror_diameter_m
+    source: "NASA JWST Spacecraft Overview (science.nasa.gov)"
+    selection_reason: "JWST primary mirror D=6.5 m, used in lambda/D PSF scaling law"
+  - product_id: msa_target_acquisition_accuracy_mas
+    source: "Ferruit et al. 2022, arXiv:2202.03306, Sec 4.2"
+    selection_reason: "MSATA accuracy requirement <25 mas / achieved ~20 mas; centering_sigma_mas fiducial"
+
+derivation:
+  configuration_file: config/analysis.yml
+  configuration_sha256: COMPUTED_AT_RUNTIME_VIA_provenance.sha256_config
+  software_commit: LOCAL_UNCOMMITTED
+  scripts:
+    - scripts/fetch_data.py
+    - scripts/run_analysis.py
+    - scripts/make_figures.py
+
+assumptions:
+  - "PSF modelled as a circularly-symmetric 2D Gaussian (sigma_x = sigma_y), not the true NIRSpec Airy/diffraction pattern with wings; see docs/ASSUMPTIONS_AND_LIMITATIONS.md."
+  - "Pure diffraction-limited lambda/D PSF scaling applied across the full 0.6-5.3 um NIRSpec range, though the literature anchor only confirms Strehl>0.8 above 2.46 um (TODO_VERIFY, see psf.py docstring)."
+  - "Shutter failures modelled as independent per-shutter Bernoulli draws at the verified aggregate 82.5% operability fraction; the true spatial failure pattern (shorted rows/columns per Ferruit et al. 2022 Sec 2.4) is not reproduced (TODO_VERIFY)."
+  - "Field-averaged shutter pitch/open-area values used; true values vary ~1-4% across the field of view due to optical distortion (not modelled)."
+  - "Models only geometric slit-loss throughput; does not include detector QE, optical-train reflectivity or grating efficiency terms (see docs/RESEARCH_BLUEPRINT.md gap statement)."
+warnings: []

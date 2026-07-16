@@ -1,0 +1,9 @@
+{
+  "figure": "fig03_wavelength_loss",
+  "data_kind": "synthetic_monte_carlo",
+  "sample_size": 25,
+  "units": "dimensionless throughput vs micron",
+  "git_commit": "LOCAL_UNCOMMITTED",
+  "config_sha256": "4cda3649dadd86df503c930d02a5f051de8dede7aeca7fd1948432a5ee0e885c",
+  "package_version": "0.1.0"
+}

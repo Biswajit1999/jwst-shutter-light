@@ -1,0 +1,212 @@
+\documentclass[11pt]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx,booktabs,amsmath,hyperref,natbib}
+\title{JWST/NIRSpec Micro-Shutter Throughput Loss Sandbox}
+\author{Biswajit Jana}
+\date{\today}
+\begin{document}
+\maketitle
+
+\begin{abstract}
+This is a bounded, physically-grounded Monte Carlo sandbox exploring how
+target-centering error, wavelength-dependent point-spread-function (PSF)
+width and micro-shutter-array (MSA) operability jointly set a
+\emph{simplified} geometric slit-loss throughput for JWST/NIRSpec
+multi-object spectroscopy. All numeric instrument constants (shutter
+geometry, PSF anchor, operability fraction, target-acquisition accuracy) are
+traced to verified public sources (Jakobsen et al. 2022; Ferruit et al. 2022;
+Rawle et al. 2022; NASA JWST spacecraft overview) --- see
+Section~\ref{sec:data} and \texttt{data/manifest.csv}. All throughput values
+reported here are \textbf{synthetic Monte Carlo output}
+(\texttt{data\_kind = "synthetic\_monte\_carlo"}), not real telemetry or an
+official pipeline path-loss correction. The forward-model / injection-recovery
+validation gate (Section~\ref{sec:validation}) passed. Production-run results
+(\texttt{monte\_carlo.production\_trials} trials, Section~\ref{sec:results})
+are read directly, unedited, from \texttt{results/summary.json}.
+\end{abstract}
+
+\section{Scientific question}
+How do target-centering error, wavelength-dependent PSF width and shutter
+operability alter simplified NIRSpec MSA throughput?
+
+\section{Data and provenance}
+\label{sec:data}
+Per \texttt{docs/DATASET\_PLAN.md}, this project's data mode is
+\emph{official instrument parameters + synthetic Monte Carlo}: a
+physically-grounded simulation, not an archive-download audit. No real
+NIRSpec observational products are downloaded or used. Eight numeric
+instrument parameters were verified via \texttt{WebFetch} against real
+public sources during the implementation session and are recorded, with
+exact source URLs, retrieval timestamps and content hashes, in
+\texttt{data/manifest.csv} (mirrored in \texttt{data/provenance.yml}):
+shutter pitch and open-aperture dimensions, MSA array layout, in-flight
+shutter operability fraction, NIRSpec wavelength range, the PSF FWHM
+anchor at 2.5\,$\mu$m, the JWST primary mirror diameter, and the MSA
+target-acquisition accuracy requirement. Two items remain flagged
+\texttt{TODO\_VERIFY} rather than fabricated (Section~\ref{sec:limitations}):
+the sub-diffraction-limit PSF broadening below 2.46\,$\mu$m, and the spatial
+(non-independent) structure of real shutter failures.
+
+\section{Method}
+\label{sec:method}
+The model treats the NIRSpec PSF as a circularly-symmetric 2-D Gaussian
+whose $\sigma(\lambda)$ follows the diffraction-limited $\lambda/D$ scaling
+law ($D=6.5$\,m), calibrated to the verified 80\,mas FWHM anchor at
+2.5\,$\mu$m (\texttt{psf.py}; reproduces the anchor to $<1\%$ from the pure
+geometric law, confirming the correct functional form). For a target whose
+PSF centroid is offset by $(dx, dy)$ from a shutter's centre, the
+geometrically transmitted flux fraction through the open rectangular
+aperture is the exact product of two independent 1-D Gaussian-CDF integrals
+(\texttt{geometry.rectangular\_aperture\_transmission}) --- exact given the
+Gaussian-PSF assumption, not an additional approximation. Each Monte Carlo
+trial draws an independent 2-D centering offset
+($\mathcal{N}(0,\sigma_{\mathrm{cent}}^2)$ per axis, fiducial
+$\sigma_{\mathrm{cent}}=20$\,mas, the verified MSATA in-flight accuracy), a
+wavelength uniform on $[0.6, 5.3]\,\mu$m, and a shutter-open Bernoulli draw at
+the verified 82.5\% in-flight operability fraction
+(\texttt{monte\_carlo.py}). \texttt{core.run\_pipeline} composes the trial
+ensemble with two deterministic diagnostic sweeps (throughput vs.\ offset at
+fixed wavelength; throughput vs.\ wavelength at fixed offset) and an
+illustrative shutter-operability heatmap.
+
+\emph{Scope note}: this models only the geometric slit-loss component of
+throughput --- not detector quantum efficiency, optical-train reflectivity or
+grating efficiency --- consistent with the bounded ``simplified'' scientific
+question (\texttt{docs/RESEARCH\_BLUEPRINT.md}).
+
+\section{Validation and uncertainty}
+\label{sec:validation}
+Monte Carlo placement/observational uncertainty is reported via bootstrap
+resampling of the per-trial throughput ensemble (1000 resamples, 95\%
+confidence, seed 20260713, \texttt{uncertainty.bootstrap\_statistic});
+numerical fit convergence (used only when fitting an effective centering
+sigma back out of a throughput-vs-offset sweep) is assessed separately via
+covariance condition number and reduced $\chi^2$
+(\texttt{uncertainty.check\_fit\_convergence}) --- the two uncertainty
+categories are never conflated.
+
+\textbf{Analytic-limit validation}
+(\texttt{tests/test\_geometry.py::test\_transmission\_matches\_analytic\_zero\_offset\_closed\_form}):
+at zero offset, the general numerical transmission function agrees with the
+independently-derived closed-form $\mathrm{erf}$ expression to $<10^{-9}$
+relative precision. \textbf{Injection recovery}
+(\texttt{tests/test\_core\_pipeline.py::test\_injection\_recovery\_effective\_sigma}):
+a known effective 1-D PSF sigma (55\,mas) is injected into the noise-free
+forward model across a 40-point offset sweep and fit back out via
+\texttt{core.recover\_effective\_sigma} (fit parameter normalized to $O(1)$
+before fitting); the recovered value matches the injected truth to
+$<0.1\%$ relative error, and the fit's covariance conditioning passes.
+\textbf{This gate passed.} \textbf{Null control}
+(\texttt{tests/test\_throughput.py::test\_null\_control\_zero\_offset\_all\_open\_large\_aperture\_near\_unity}):
+zero centering error, all shutters operable, and an aperture much larger than
+the PSF together drive throughput to $1.0$ within $10^{-6}$.
+\textbf{Failure modes}: zero Monte Carlo trials raises
+\texttt{InsufficientDataError} rather than returning a degenerate result
+(\texttt{test\_run\_pipeline\_rejects\_zero\_trials}); non-finite or
+out-of-shape trial inputs raise \texttt{DataSchemaError}; an ill-conditioned
+or non-finite fit covariance raises \texttt{ConvergenceError}.
+
+\section{Results}
+\label{sec:results}
+All numbers below are read directly, unedited, from
+\texttt{results/summary.json}, produced by \texttt{scripts/run\_analysis.py}
+at the production trial count configured in
+\texttt{config/analysis.yml} (\texttt{monte\_carlo.production\_trials} =
+20{,}000 trials).
+
+Averaged over the full trial ensemble (random offset, random wavelength,
+random shutter-open draw, $n=20{,}000$), the mean geometric slit throughput
+is $0.7795$ (95\% bootstrap CI $[0.7743, 0.7845]$), median $0.9512$. The gap
+between the mean and the much higher median reflects the bimodal mixture
+driving this metric: $17.85\%$ of trials draw a closed shutter
+(\texttt{fraction\_shutter\_closed}, contributing zero throughput), while the
+remaining open-shutter trials average $0.9488$
+(\texttt{mean\_throughput\_open\_only}) --- i.e. conditional on the shutter
+being open, target-centering error and PSF width alone cost only
+$\sim\!5\%$ of the geometric throughput on average, but the aggregate
+$82.5\%$ in-flight operability fraction dominates the overall mean. The
+offset sweep (Figure~\ref{fig:offset}) shows the expected smooth,
+symmetric roll-off: throughput exceeds $0.98$ within $\pm 15$\,mas of
+perfect centering and falls to $\sim\!0.10$ by $\pm 150$\,mas, consistent
+with the verified $\sim\!20$\,mas MSATA accuracy being small relative to
+the $\sim\!268$\,mas shutter pitch. The wavelength sweep
+(Figure~\ref{fig:wavelength}) shows throughput near unity shortward of the
+verified $2.46\,\mu$m diffraction-limit onset, declining smoothly to
+$\sim\!0.82$ at the $5.3\,\mu$m red edge of the NIRSpec range as the
+diffraction-limited PSF broadens --- the qualitative direction expected from
+the $\lambda/D$ scaling law, though the true short-wavelength values are
+likely somewhat more optimistic than reality per the PSF-broadening
+limitation below.
+
+\section{Limitations}
+\label{sec:limitations}
+An instrument-physics QA sandbox; not a replacement for the JWST pipeline or
+official path-loss corrections. The PSF is modelled as a circularly-symmetric
+2-D Gaussian, not the true NIRSpec Airy/diffraction pattern with wings. The
+pure diffraction-limited $\lambda/D$ PSF scaling is applied across the full
+0.6--5.3\,$\mu$m NIRSpec range, though the literature anchor only confirms
+Strehl$>0.8$ above 2.46\,$\mu$m --- below that, the true PSF is likely
+somewhat broader than modelled here, so short-wavelength slit losses are
+likely somewhat \emph{underestimated} (\texttt{TODO\_VERIFY}, no verified
+quantitative Strehl-vs-wavelength curve was found in the time available).
+Shutter failures are modelled as independent per-shutter Bernoulli draws at
+the verified \emph{aggregate} 82.5\% operability fraction; the real spatial
+failure pattern (e.g.\ shorted rows/columns, Ferruit et al. 2022 Sec 2.4) is
+not reproduced (\texttt{TODO\_VERIFY}). Field-averaged shutter pitch/open-area
+values are used; true values vary $\sim$1--4\% across the field of view due
+to optical distortion (not modelled). See
+\texttt{docs/ASSUMPTIONS\_AND\_LIMITATIONS.md} for the full list.
+
+\section{Reproducibility}
+\begin{verbatim}
+python -m pip install -e ".[dev]"
+pytest -q
+ruff check src tests scripts
+mypy src
+python scripts/fetch_data.py --i-have-authorization   # verifies data/manifest.csv only, no network I/O
+python scripts/run_analysis.py --demo                 # small trial count
+python scripts/run_analysis.py                        # full production trial count
+python scripts/make_figures.py --demo
+python scripts/make_figures.py
+python scripts/sync_web_assets.py
+\end{verbatim}
+Software version, git commit and configuration SHA-256 are recorded in
+\texttt{results/summary.json} and each figure's sidecar JSON.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{../figures/fig01_msa_geometry.png}
+  \caption{NIRSpec MSA shutter geometry: illustrative sub-grid with verified
+  pitch and open-aperture dimensions annotated (Ferruit et al. 2022).}
+  \label{fig:geometry}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{../figures/fig02_throughput_vs_offset.png}
+  \caption{Geometric slit throughput vs.\ target-centering offset (dispersion
+  direction), fixed fiducial wavelength, all shutters open.}
+  \label{fig:offset}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{../figures/fig03_wavelength_loss.png}
+  \caption{Geometric slit throughput vs.\ wavelength at the fiducial
+  centering-error sigma, all shutters open. Diffraction-limit onset
+  (2.46\,$\mu$m, verified) marked.}
+  \label{fig:wavelength}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{../figures/fig04_failed_shutter_heatmap.png}
+  \caption{Synthetic illustrative shutter-operability realization
+  (independent Bernoulli draws at the verified aggregate 82.5\% fraction) ---
+  \textbf{not} a real MSA operability map.}
+  \label{fig:heatmap}
+\end{figure}
+
+\bibliographystyle{plain}
+\bibliography{references}
+\end{document}

@@ -1,0 +1,44 @@
+{
+  "title": "JWST/NIRSpec Micro-Shutter Throughput Loss Sandbox",
+  "repo": "jwst-shutter-light",
+  "category": "Astrophysics instrumentation / modelling",
+  "status": "BUILD_FIRST",
+  "priority": 9.0,
+  "question": "How do target-centering error, wavelength-dependent PSF width and shutter operability alter simplified NIRSpec MSA throughput?",
+  "gap": "An instrument-physics QA sandbox; not a replacement for the JWST pipeline or official path-loss corrections.",
+  "dataMode": "official instrument parameters + synthetic Monte Carlo",
+  "productionTrials": 20000,
+  "novelty": "An instrument-physics QA sandbox built from verified public NIRSpec instrument parameters; not a replacement for the JWST pipeline or official path-loss corrections, and not a novel scientific claim beyond this bounded model.",
+  "figures": [
+    { "id": "fig01_msa_geometry", "label": "MSA geometry" },
+    { "id": "fig02_throughput_vs_offset", "label": "Throughput vs centering offset" },
+    { "id": "fig03_wavelength_loss", "label": "Throughput vs wavelength" },
+    { "id": "fig04_failed_shutter_heatmap", "label": "Failed-shutter heatmap (illustrative)" }
+  ],
+  "validationContract": [
+    "Monte Carlo placement uncertainty (bootstrap, 1000 resamples)",
+    "throughput bounds (clipped to [0,1], checked every trial)",
+    "wavelength sensitivity (diffraction-limited PSF broadening)",
+    "operability-mask sensitivity (shutter operability fraction)",
+    "analytic zero-offset closed-form cross-check",
+    "injection-recovery of a known effective centering sigma"
+  ],
+  "methodology": "Each Monte Carlo trial draws an independent 2D target-centering offset (Gaussian, fiducial sigma=20 mas, the verified MSA target-acquisition in-flight accuracy), a wavelength uniform on the verified 0.6-5.3 micron NIRSpec range, and a shutter-open Bernoulli draw at the verified 82.5% in-flight operability fraction. The PSF is modelled as a circularly-symmetric 2D Gaussian whose sigma follows the diffraction-limited lambda/D scaling law (D=6.5 m), calibrated to the verified 80 mas FWHM anchor at 2.5 micron. Geometric slit transmission through the rectangular shutter aperture is the exact product of two independent 1D Gaussian-CDF integrals; shutters that failed closed contribute zero throughput. Deterministic diagnostic sweeps (throughput vs offset; throughput vs wavelength) and an illustrative shutter-operability heatmap accompany the main trial ensemble.",
+  "assumptions": [
+    "PSF modelled as a circularly-symmetric 2D Gaussian, not the true NIRSpec Airy/diffraction pattern with wings.",
+    "Pure diffraction-limited lambda/D PSF scaling applied across the full 0.6-5.3 micron NIRSpec range, though the literature anchor only confirms Strehl>0.8 above 2.46 micron (TODO_VERIFY).",
+    "Shutter failures modelled as independent per-shutter Bernoulli draws at the verified aggregate 82.5% operability fraction; the true spatial failure pattern is not reproduced (TODO_VERIFY).",
+    "Field-averaged shutter pitch/open-area values used; true values vary ~1-4% across the field of view due to optical distortion."
+  ],
+  "limitations": [
+    "An instrument-physics QA sandbox; not a replacement for the JWST pipeline or official path-loss corrections.",
+    "Models only geometric slit-loss throughput; does not include detector QE, optical-train reflectivity or grating efficiency.",
+    "All output is synthetic Monte Carlo data built from verified real instrument parameters, never real NIRSpec telemetry.",
+    "JDox (jwst-docs.stsci.edu) pages returned only client-rendered navigation shells to WebFetch; numeric parameters instead trace to verified peer-reviewed arXiv/A&A papers and the public NASA JWST spacecraft-overview page."
+  ],
+  "citation": {
+    "author": "Biswajit Jana",
+    "license": "BSD-3-Clause (original code); cited literature and public JWST documentation retain their original terms",
+    "repository": "https://github.com/Biswajit1999/jwst-shutter-light"
+  }
+}

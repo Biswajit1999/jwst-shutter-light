@@ -1,0 +1,65 @@
+% All entries below were verified via WebFetch against the arXiv abstract
+% page (and, for Bechtold et al. 2024, metadata only) during the
+% implementation session; see IMPLEMENTATION_PLAN.md Sec 1 and
+% data/manifest.csv for the verification record.
+
+@article{Jakobsen2022,
+  author  = {Jakobsen, P. and Ferruit, P. and Alves de Oliveira, C. and others},
+  title   = {The Near-Infrared Spectrograph (NIRSpec) on the James Webb Space Telescope. I. Overview of the instrument and its capabilities},
+  journal = {Astronomy \& Astrophysics},
+  volume  = {661},
+  pages   = {A80},
+  year    = {2022},
+  doi     = {10.1051/0004-6361/202142663},
+  eprint  = {2202.03305},
+  archivePrefix = {arXiv},
+}
+
+@article{Ferruit2022,
+  author  = {Ferruit, P. and Jakobsen, P. and Giardino, G. and others},
+  title   = {The Near-Infrared Spectrograph (NIRSpec) on the James Webb Space Telescope. II. Multi-object spectroscopy (MOS)},
+  journal = {Astronomy \& Astrophysics},
+  year    = {2022},
+  doi     = {10.1051/0004-6361/202142673},
+  eprint  = {2202.03306},
+  archivePrefix = {arXiv},
+}
+
+@inproceedings{Giardino2022,
+  author    = {Giardino, G. and others},
+  title     = {In-orbit optical throughput and sensitivity of the JWST/NIRSpec instrument},
+  booktitle = {Proc. SPIE},
+  year      = {2022},
+  eprint    = {2208.04876},
+  archivePrefix = {arXiv},
+  note      = {Cited qualitatively only; not a numeric parameter source used in the throughput model.},
+}
+
+@inproceedings{Rawle2022,
+  author    = {Rawle, T. D. and others},
+  title     = {In-flight performance of the JWST/NIRSpec micro-shutter arrays},
+  booktitle = {Proc. SPIE},
+  year      = {2022},
+  eprint    = {2208.04673},
+  archivePrefix = {arXiv},
+  note      = {Source of the in-flight shutter-operability fraction (82.5\%) used as the Monte Carlo default; verified via WebFetch of the arXiv abstract.},
+}
+
+@inproceedings{Bechtold2024,
+  author    = {Bechtold, K. and others},
+  title     = {NIRSpec micro-shutter array operability after two years in flight},
+  booktitle = {Proc. SPIE},
+  volume    = {13092-38},
+  year      = {2024},
+  eprint    = {2408.15940},
+  archivePrefix = {arXiv},
+  note      = {Title/authors/venue verified via WebFetch; numeric operability content could not be independently extracted (PDF/HTML body inaccessible to WebFetch in this session). Cited for context only, not as a numeric model input.},
+}
+
+@misc{NASAJWSTSpacecraft,
+  author = {{NASA}},
+  title  = {{James Webb Space Telescope: Spacecraft Overview}},
+  year   = {2026},
+  url    = {https://science.nasa.gov/mission/webb/spacecraftoverview/},
+  note   = {Verified via WebFetch, 2026-07-15: ``its large segmented mirror --- 18 segments covering 6.5 meters (21.3 feet) at its widest point''. Source for JWST\_MIRROR\_DIAMETER\_M = 6.5\,m used in psf.py.},
+}

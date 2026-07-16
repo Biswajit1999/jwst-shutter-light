@@ -1,0 +1,39 @@
+project:
+  title: "JWST/NIRSpec Micro-Shutter Throughput Loss Sandbox"
+  repository: "jwst-nirspec-msa-throughput-sandbox"
+  author: "Biswajit Jana"
+  curation_status: "BUILD_FIRST"
+  priority: 9.0
+
+execution:
+  seed: 20260713
+  output_directory: results
+  overwrite: false
+  fail_on_warning: false
+
+input:
+  data_mode: "official instrument parameters + synthetic Monte Carlo"
+  manifest: data/manifest.csv
+  raw_directory: data/raw
+  example_directory: data/example
+
+validation:
+  minimum_sample_size: 30
+  bootstrap_resamples: 1000
+  confidence_level: 0.95
+
+provenance:
+  record_environment: true
+  record_git_commit: true
+  verify_checksums: true
+
+monte_carlo:
+  # centering_sigma_mas fiducial: successful MSA Target Acquisition (MSATA)
+  # achieves ~20 mas; requirement is <25 mas (Ferruit et al. 2022, Sec 4.2).
+  demo_trials: 200
+  production_trials: 20000
+  centering_sigma_mas: 20.0
+  wavelength_min_um: 0.6
+  wavelength_max_um: 5.3
+  # in-flight operability fraction (Rawle et al. 2022, arXiv:2208.04673 abstract)
+  operability_fraction: 0.825
