@@ -6,7 +6,7 @@ products — it records the SOURCE of each verified physical instrument
 parameter used in the model. The manifest schema is reused as-is
 (`product_id, source, source_url, retrieved_utc, sha256, file_size_bytes,
 selection_reason, licence_or_terms`) with the following field reinterpretation,
-documented here per CLAUDE_TASK.md's requirement to document any adaptation:
+documented here per docs/VALIDATION_CONTRACT.md's requirement to document any adaptation:
 
 - `product_id`   -> the parameter name (e.g. "shutter_pitch_mas")
 - `source`       -> short citation key (e.g. "Ferruit et al. 2022")

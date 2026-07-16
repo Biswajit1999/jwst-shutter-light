@@ -7,7 +7,7 @@
   (`check_fit_convergence`), e.g. when fitting the effective centering sigma
   back out of a throughput-vs-offset sweep.
 
-Reported separately per CLAUDE_TASK.md's requirement to not conflate
+Reported separately per docs/VALIDATION_CONTRACT.md's requirement to not conflate
 observational/Monte-Carlo uncertainty with numerical convergence uncertainty.
 """
 from __future__ import annotations
@@ -78,7 +78,7 @@ def check_fit_convergence(
 
     Raises ConvergenceError (not a silently-returned False) if the
     covariance matrix is non-finite or ill-conditioned beyond
-    `max_condition_number`, per CLAUDE_TASK.md's stop condition for failed
+    `max_condition_number`, per docs/VALIDATION_CONTRACT.md's stop condition for failed
     numerical convergence. Callers must normalize fit parameters spanning
     orders of magnitude to O(1) before fitting, so this conditioning check is
     meaningful.

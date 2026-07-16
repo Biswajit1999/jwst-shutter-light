@@ -94,7 +94,7 @@ def recover_effective_sigma(
     Used by the validation-gate test to confirm the forward model and the
     fit are mutually consistent (injection recovery). Fit parameters are
     normalized to O(1) (sigma in units of `initial_guess_mas`) before fitting,
-    per CLAUDE_TASK.md's requirement, so the covariance conditioning check in
+    per docs/VALIDATION_CONTRACT.md's requirement, so the covariance conditioning check in
     `check_fit_convergence` is meaningful.
     """
     offsets = np.asarray(offsets_mas, dtype=float)

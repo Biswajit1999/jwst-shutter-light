@@ -1,6 +1,6 @@
 # Local Completion Report — JWST/NIRSpec Micro-Shutter Throughput Loss Sandbox
 
-Author: Biswajit Jana. This report documents a local Claude Code implementation pass
+Author: Biswajit Jana. This report documents a local implementation pass
 (project 8 of the 30-project pack, `BUILD_FIRST` priority 9.0/10). No git operations
 were performed. Nothing has been published.
 
