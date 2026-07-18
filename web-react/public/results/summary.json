@@ -1,0 +1,455 @@
+{
+  "project": "JWST/NIRSpec Micro-Shutter Throughput Loss Sandbox",
+  "data_kind": "synthetic_monte_carlo",
+  "metrics": [
+    {
+      "name": "mean_throughput",
+      "estimate": 0.7794595509114781,
+      "uncertainty_low": 0.7743013550287957,
+      "uncertainty_high": 0.7844707796285451,
+      "units": "dimensionless",
+      "sample_size": 20000
+    },
+    {
+      "name": "median_throughput",
+      "estimate": 0.9511667850019035,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 20000
+    },
+    {
+      "name": "fraction_shutter_closed",
+      "estimate": 0.1785,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 20000
+    },
+    {
+      "name": "mean_throughput_open_only",
+      "estimate": 0.9488247728685066,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 20000
+    },
+    {
+      "name": "throughput_vs_offset_mas_-150.0",
+      "estimate": 0.10388357906155457,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_-137.5",
+      "estimate": 0.17158639932719352,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_-125.0",
+      "estimate": 0.26235536410710153,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_-112.5",
+      "estimate": 0.3728604445587276,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_-100.0",
+      "estimate": 0.49502396790930686,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_-87.5",
+      "estimate": 0.6176587148410128,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_-75.0",
+      "estimate": 0.7294449984021303,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_-62.5",
+      "estimate": 0.8219619009747997,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_-50.0",
+      "estimate": 0.8914484984428813,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_-37.5",
+      "estimate": 0.9387038589089647,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_-25.0",
+      "estimate": 0.9674954795640202,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_-12.5",
+      "estimate": 0.9824009333196141,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_0.0",
+      "estimate": 0.9869367373234639,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_12.5",
+      "estimate": 0.9824009333196141,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_25.0",
+      "estimate": 0.9674954795640202,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_37.5",
+      "estimate": 0.9387038589089647,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_50.0",
+      "estimate": 0.8914484984428813,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_62.5",
+      "estimate": 0.8219619009747997,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_75.0",
+      "estimate": 0.7294449984021303,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_87.5",
+      "estimate": 0.6176587148410128,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_100.0",
+      "estimate": 0.49502396790930675,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_112.5",
+      "estimate": 0.3728604445587276,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_125.0",
+      "estimate": 0.26235536410710153,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_137.5",
+      "estimate": 0.17158639932719344,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_offset_mas_150.0",
+      "estimate": 0.10388357906155458,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_0.600",
+      "estimate": 1.0,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_0.796",
+      "estimate": 0.9999999999999017,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_0.992",
+      "estimate": 0.9999999981760684,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_1.188",
+      "estimate": 0.9999995814891233,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_1.383",
+      "estimate": 0.9999882685344335,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_1.579",
+      "estimate": 0.9998941447652769,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_1.775",
+      "estimate": 0.9995091352889693,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_1.971",
+      "estimate": 0.9984992518564716,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_2.167",
+      "estimate": 0.9965095808222483,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_2.362",
+      "estimate": 0.9932636464089599,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_2.558",
+      "estimate": 0.9886008823588056,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_2.754",
+      "estimate": 0.9824668340840583,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_2.950",
+      "estimate": 0.9748871503487316,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_3.146",
+      "estimate": 0.9659428278960407,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_3.342",
+      "estimate": 0.9557510874152307,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_3.538",
+      "estimate": 0.9444509434560838,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_3.733",
+      "estimate": 0.9321918667836551,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_3.929",
+      "estimate": 0.919124635560148,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_4.125",
+      "estimate": 0.9053941132102715,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_4.321",
+      "estimate": 0.8911339707757334,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_4.517",
+      "estimate": 0.8764633648216733,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_4.712",
+      "estimate": 0.8614854354673586,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_4.908",
+      "estimate": 0.8462873266040354,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_5.104",
+      "estimate": 0.8309413253388009,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "throughput_vs_wavelength_um_5.300",
+      "estimate": 0.815506693375388,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 1
+    },
+    {
+      "name": "failed_shutter_heatmap_operable_fraction",
+      "estimate": 0.8044444444444444,
+      "uncertainty_low": null,
+      "uncertainty_high": null,
+      "units": "dimensionless",
+      "sample_size": 450
+    }
+  ],
+  "provenance": {
+    "config_sha256": "4cda3649dadd86df503c930d02a5f051de8dede7aeca7fd1948432a5ee0e885c",
+    "git_commit": "LOCAL_UNCOMMITTED",
+    "package_version": "0.1.0",
+    "n_trials": 20000,
+    "run_label": "production",
+    "seed": 20260713
+  },
+  "warnings": []
+}
