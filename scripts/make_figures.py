@@ -19,6 +19,7 @@ import matplotlib
 matplotlib.use("Agg")
 import matplotlib.pyplot as plt
 import numpy as np
+import scienceplots  # noqa: F401
 
 from jwst_nirspec_msa_throughput_sandbox import __version__
 from jwst_nirspec_msa_throughput_sandbox.config import load_config
@@ -26,6 +27,8 @@ from jwst_nirspec_msa_throughput_sandbox.core import run_pipeline
 from jwst_nirspec_msa_throughput_sandbox.geometry import MSAGeometry, shutter_grid_centers
 from jwst_nirspec_msa_throughput_sandbox.provenance import get_git_commit, sha256_config
 from jwst_nirspec_msa_throughput_sandbox.psf import PSFModel
+
+plt.style.use(["science", "no-latex"])
 
 
 def _sidecar(path: Path, *, data_kind: str, sample_size: int, units: str, config_path: Path, extra: dict | None = None) -> None:
