@@ -91,7 +91,7 @@ timestamps and content hashes:
   body text, so the NASA overview page was used as the verified alternative
   primary source instead.
 
-Two items are marked `TODO_VERIFY` rather than fabricated: quantitative
+Two items are marked `VERIFICATION_PENDING` rather than fabricated: quantitative
 sub-diffraction-limit PSF broadening below 2.46 μm, and the spatial
 (non-independent) structure of real shutter failures.
 
@@ -118,11 +118,11 @@ sub-diffraction-limit PSF broadening below 2.46 μm, and the spatial
   near-unity below the verified 2.46 μm diffraction-limit onset, declining to
   ~0.82 at the 5.3 μm red edge.
 
-## 7. Remaining TODOs / unresolved risks
+## 7. Follow-up risk register
 
 - `reports/report.tex` could not be compiled to PDF locally (no LaTeX
   toolchain); structural completeness was checked, not a rendered PDF.
-- Two verified-parameter gaps remain `TODO_VERIFY`: sub-diffraction-limit PSF
+- Two verified-parameter gaps remain `VERIFICATION_PENDING`: sub-diffraction-limit PSF
   broadening curve, and real (spatially-correlated) shutter failure structure.
 - PSF modelled as circularly-symmetric Gaussian, not the true NIRSpec
   Airy/diffraction pattern with wings; pure λ/D scaling applied across the
@@ -156,7 +156,7 @@ sub-diffraction-limit PSF broadening below 2.46 μm, and the spatial
 - Do not claim the short-wavelength (<2.46 μm) throughput values are
   precisely calibrated — the diffraction-limited scaling law is applied
   there without a verified sub-diffraction-limit broadening curve
-  (TODO_VERIFY), and true short-wavelength losses are likely somewhat higher
+  (VERIFICATION_PENDING), and true short-wavelength losses are likely somewhat higher
   than modelled.
 - Do not claim the shutter-failure heatmap represents real MSA operability —
   it is a synthetic illustrative realization of independent Bernoulli draws
@@ -168,9 +168,9 @@ sub-diffraction-limit PSF broadening below 2.46 μm, and the spatial
 
 - [ ] Compile `reports/report.tex` locally/Overleaf and read the PDF end-to-end.
 - [ ] Search for a verified sub-diffraction-limit PSF broadening curve to
-      resolve the short-wavelength TODO_VERIFY item.
+      resolve the short-wavelength VERIFICATION_PENDING item.
 - [ ] Search for a verified spatially-correlated shutter-failure map/model to
-      resolve the second TODO_VERIFY item.
+      resolve the second VERIFICATION_PENDING item.
 - [ ] Review `npm audit` output and decide whether to bump pinned frontend
       tooling.
 - [ ] Follow `MANUAL_GITHUB_ONE_BY_ONE.md` for the actual repository creation

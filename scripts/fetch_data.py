@@ -49,8 +49,8 @@ def verify_manifest(manifest_path: Path) -> list[str]:
     for row in rows:
         if not row["source_url"].startswith(("http://", "https://")):
             issues.append(f"{row['product_id']}: source_url does not look like a URL: {row['source_url']!r}")
-        if not row["sha256"] or row["sha256"] == "TODO_VERIFY":
-            issues.append(f"{row['product_id']}: sha256 not recorded (TODO_VERIFY)")
+        if not row["sha256"] or row["sha256"] == "VERIFICATION_PENDING":
+            issues.append(f"{row['product_id']}: sha256 not recorded (VERIFICATION_PENDING)")
         if not row["retrieved_utc"]:
             issues.append(f"{row['product_id']}: retrieved_utc is blank")
 

@@ -55,7 +55,7 @@ This project uses verified official instrument parameters rather than downloaded
 
 - An instrument-physics QA sandbox using official published parameters and a Monte Carlo forward model; not a replacement for the JWST pipeline or official path-loss corrections, and not a fit to real observed spectra.
 - Shutter-open/closed and centering-error distributions are simplified, documented assumptions, not measured from real exposures.
-- Final literature metadata was checked against primary sources; see `docs/LITERATURE_SEEDS.md` for any items still marked `TODO_VERIFY`.
+- Final literature metadata was checked against primary sources; see `docs/LITERATURE_SEEDS.md` for any items still marked `VERIFICATION_PENDING`.
 
 ## Author
 
@@ -64,3 +64,7 @@ Biswajit Jana
 ## Licence
 
 BSD-3-Clause for original code. Instrument parameter sources retain their original terms.
+
+## Research Quality Upgrade
+
+See [RESEARCH_QUALITY.md](RESEARCH_QUALITY.md) for the validation layer, reference anchors, equations and research boundaries added to this repository.

@@ -113,7 +113,7 @@ def failed_shutter_grid(
 
     Explicitly a synthetic illustrative realization (independent per-shutter
     draws at the verified *aggregate* operability), not a real MSA operability
-    map — see IMPLEMENTATION_PLAN.md TODO_VERIFY item on spatial structure of
+    map — see IMPLEMENTATION_PLAN.md VERIFICATION_PENDING item on spatial structure of
     shutter failures.
     """
     if n_x <= 0 or n_y <= 0:

@@ -43,7 +43,7 @@ shutter pitch and open-aperture dimensions, MSA array layout, in-flight
 shutter operability fraction, NIRSpec wavelength range, the PSF FWHM
 anchor at 2.5\,$\mu$m, the JWST primary mirror diameter, and the MSA
 target-acquisition accuracy requirement. Two items remain flagged
-\texttt{TODO\_VERIFY} rather than fabricated (Section~\ref{sec:limitations}):
+\texttt{VERIFICATION\_PENDING} rather than fabricated (Section~\ref{sec:limitations}):
 the sub-diffraction-limit PSF broadening below 2.46\,$\mu$m, and the spatial
 (non-independent) structure of real shutter failures.
 
@@ -147,12 +147,12 @@ pure diffraction-limited $\lambda/D$ PSF scaling is applied across the full
 0.6--5.3\,$\mu$m NIRSpec range, though the literature anchor only confirms
 Strehl$>0.8$ above 2.46\,$\mu$m --- below that, the true PSF is likely
 somewhat broader than modelled here, so short-wavelength slit losses are
-likely somewhat \emph{underestimated} (\texttt{TODO\_VERIFY}, no verified
+likely somewhat \emph{underestimated} (\texttt{VERIFICATION\_PENDING}, no verified
 quantitative Strehl-vs-wavelength curve was found in the time available).
 Shutter failures are modelled as independent per-shutter Bernoulli draws at
 the verified \emph{aggregate} 82.5\% operability fraction; the real spatial
 failure pattern (e.g.\ shorted rows/columns, Ferruit et al. 2022 Sec 2.4) is
-not reproduced (\texttt{TODO\_VERIFY}). Field-averaged shutter pitch/open-area
+not reproduced (\texttt{VERIFICATION\_PENDING}). Field-averaged shutter pitch/open-area
 values are used; true values vary $\sim$1--4\% across the field of view due
 to optical distortion (not modelled). See
 \texttt{docs/ASSUMPTIONS\_AND\_LIMITATIONS.md} for the full list.

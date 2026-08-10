@@ -26,8 +26,8 @@
   "methodology": "Each Monte Carlo trial draws an independent 2D target-centering offset (Gaussian, fiducial sigma=20 mas, the verified MSA target-acquisition in-flight accuracy), a wavelength uniform on the verified 0.6-5.3 micron NIRSpec range, and a shutter-open Bernoulli draw at the verified 82.5% in-flight operability fraction. The PSF is modelled as a circularly-symmetric 2D Gaussian whose sigma follows the diffraction-limited lambda/D scaling law (D=6.5 m), calibrated to the verified 80 mas FWHM anchor at 2.5 micron. Geometric slit transmission through the rectangular shutter aperture is the exact product of two independent 1D Gaussian-CDF integrals; shutters that failed closed contribute zero throughput. Deterministic diagnostic sweeps (throughput vs offset; throughput vs wavelength) and an illustrative shutter-operability heatmap accompany the main trial ensemble.",
   "assumptions": [
     "PSF modelled as a circularly-symmetric 2D Gaussian, not the true NIRSpec Airy/diffraction pattern with wings.",
-    "Pure diffraction-limited lambda/D PSF scaling applied across the full 0.6-5.3 micron NIRSpec range, though the literature anchor only confirms Strehl>0.8 above 2.46 micron (TODO_VERIFY).",
-    "Shutter failures modelled as independent per-shutter Bernoulli draws at the verified aggregate 82.5% operability fraction; the true spatial failure pattern is not reproduced (TODO_VERIFY).",
+    "Pure diffraction-limited lambda/D PSF scaling applied across the full 0.6-5.3 micron NIRSpec range, though the literature anchor only confirms Strehl>0.8 above 2.46 micron (VERIFICATION_PENDING).",
+    "Shutter failures modelled as independent per-shutter Bernoulli draws at the verified aggregate 82.5% operability fraction; the true spatial failure pattern is not reproduced (VERIFICATION_PENDING).",
     "Field-averaged shutter pitch/open-area values used; true values vary ~1-4% across the field of view due to optical distortion."
   ],
   "limitations": [

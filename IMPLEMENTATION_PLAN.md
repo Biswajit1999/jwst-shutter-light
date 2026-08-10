@@ -63,7 +63,7 @@ All verified via WebFetch of the primary source in this session (see
    Monte Carlo sweep (0-100 mas per axis, with 20-25 mas as the fiducial
    "successful MSATA" default).
 
-### TODO_VERIFY items (flagged, not fabricated)
+### VERIFICATION_PENDING items (flagged, not fabricated)
 
 - **Sub-diffraction-limit PSF broadening below 2.46 um**: the literature
   anchor confirms the PSF is diffraction-limited (Strehl>0.8) only *above*
@@ -73,7 +73,7 @@ All verified via WebFetch of the primary source in this session (see
   applies the pure diffraction-limited lambda/D law across the *entire*
   0.6-5.3 um range as a documented, flagged simplification — this likely
   slightly *underestimates* short-wavelength slit losses. Marked
-  `TODO_VERIFY` in `psf.py` docstring and `docs/ASSUMPTIONS_AND_LIMITATIONS.md`.
+  `VERIFICATION_PENDING` in `psf.py` docstring and `docs/ASSUMPTIONS_AND_LIMITATIONS.md`.
 - **Spatial structure of shutter failures** (e.g. shorted rows/columns
   described qualitatively in Ferruit et al. 2022 Sec 2.4): no real per-shutter
   operability reference file was consulted (would require a CRDS/MAST

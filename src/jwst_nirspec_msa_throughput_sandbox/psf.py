@@ -13,7 +13,7 @@ FWHM(lambda) = lambda / D (in radians, converted to mas) reproduces the
 literature value), confirming this is the correct functional form rather
 than an independently invented scaling law.
 
-TODO_VERIFY: the literature anchor above only confirms the PSF is fully
+VERIFICATION_PENDING: the literature anchor above only confirms the PSF is fully
 diffraction-limited (Strehl > 0.8) *above* 2.46 um. Below that wavelength the
 true PSF is somewhat broader than the pure lambda/D law predicts (departure
 from diffraction-limited performance), but no verified quantitative

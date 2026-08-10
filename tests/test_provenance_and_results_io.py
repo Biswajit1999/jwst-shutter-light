@@ -24,7 +24,7 @@ def test_real_manifest_is_readable_and_complete():
     assert "shutter_operability_fraction" in ids
     for row in rows:
         assert row["source_url"].startswith("http")
-        assert row["sha256"] and row["sha256"] != "TODO_VERIFY"
+        assert row["sha256"] and row["sha256"] != "VERIFICATION_PENDING"
 
 
 def test_append_and_read_manifest_roundtrip(tmp_path):
