@@ -6,7 +6,7 @@
 
 ## Scientific question
 
-How do target-centering error, wavelength-dependent PSF width and shutter operability alter simplified NIRSpec MSA throughput?
+Conditional on a planned MSA shutter opening, how do target-centering error and wavelength-dependent PSF width alter simplified geometric slit throughput, and how large is the separate penalty under a conservative 4% random command-failure scenario?
 
 ## What this repository contributes
 
@@ -14,7 +14,7 @@ An instrument-physics QA sandbox; not a replacement for the JWST pipeline or off
 
 ## Key result
 
-**Correction in progress:** the former 0.7795 headline is retired. It multiplied conditional geometric slit transmission by a 2022 aggregate operability fraction, even though APT/MPT uses a position-specific operability map to plan targets into viable shutters. Static operability constrains assignment and multiplexing; it is not an independent photon-loss draw after planning. Official STScI documentation now also distinguishes a separate random non-opening rate of up to 4% for shutters otherwise classified as operable. See [SCIENTIFIC_AUDIT.md](SCIENTIFIC_AUDIT.md) for the evidence, consequence, and corrected analysis contract.
+The former 0.7795 headline is retired. It multiplied conditional geometric slit transmission by a 2022 aggregate operability fraction, even though APT/MPT uses a position-specific map to plan targets into viable shutters. In the corrected 20,000-trial model, mean geometric throughput conditional on command success is **0.9490** (Monte Carlo 95% interval 0.9482–0.9499). A separate conservative 4% random non-opening scenario gives mean effective throughput **0.9100**; this is a model scenario, not a forecast for a planned target. See [SCIENTIFIC_AUDIT.md](SCIENTIFIC_AUDIT.md).
 
 ## Reproducing this result
 

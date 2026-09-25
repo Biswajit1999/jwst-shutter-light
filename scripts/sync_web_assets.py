@@ -17,7 +17,13 @@ def sync(results_dir: Path, figures_dir: Path, manifest_path: Path, web_public_d
     dest_figures.mkdir(parents=True, exist_ok=True)
 
     copied = []
-    for name in ("summary.json", "warnings.json", "benchmarks.json"):
+    for name in (
+        "summary.json",
+        "warnings.json",
+        "benchmarks.json",
+        "sensitivity.json",
+        "sensitivity_designs.csv",
+    ):
         src = results_dir / name
         if src.is_file():
             shutil.copy2(src, dest_results / name)

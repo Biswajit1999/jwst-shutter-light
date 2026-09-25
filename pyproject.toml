@@ -4,8 +4,8 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "jwst-shutter-light"
-version = "0.1.0"
-description = "Publication-grade computational science starter repository."
+version = "1.0.0"
+description = "Estimator-separated NIRSpec MSA geometric-throughput sensitivity audit."
 authors = [{ name = "Biswajit Jana", email = "biswajitj998@gmail.com" }]
 requires-python = ">=3.11,<3.13"
 dependencies = [

@@ -2,7 +2,6 @@ import { lazy, Suspense, useEffect, useState } from 'react';
 import {
   AlertTriangle,
   ArrowDownToLine,
-  Atom,
   BookOpen,
   CheckCircle2,
   Database,
@@ -17,7 +16,7 @@ const JwstHero = lazy(() => import('./JwstHero.jsx'));
 
 const sectionLinks = [
   ['measurements', 'Measurements'],
-  ['confidence', 'Confidence'],
+  ['sensitivity', 'Sensitivity'],
   ['figures', 'Figure records'],
   ['provenance', 'Provenance'],
   ['validation', 'Validation'],
@@ -82,88 +81,6 @@ function MetricCard({ metric, index }) {
   );
 }
 
-function inverseNormalCDF(p) {
-  if (p <= 0 || p >= 1) return NaN;
-  const a = [-39.69683028665376, 220.9460984245205, -275.9285104469687, 138.357751867269, -30.66479806614716, 2.506628277459239];
-  const b = [-54.47609879822406, 161.5858368580409, -155.6989798598866, 66.80131188771972, -13.28068155288572];
-  const c = [-0.007784894002430293, -0.3223964580411365, -2.400758277161838, -2.549732539343734, 4.374664141464968, 2.938163982698783];
-  const d = [0.007784695709041462, 0.3224671290700398, 2.445134137142996, 3.754408661907416];
-  const pLow = 0.02425;
-  const pHigh = 1 - pLow;
-  let q;
-  let r;
-  if (p < pLow) {
-    q = Math.sqrt(-2 * Math.log(p));
-    return (((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5])
-      / ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1);
-  }
-  if (p <= pHigh) {
-    q = p - 0.5;
-    r = q * q;
-    return (((((a[0] * r + a[1]) * r + a[2]) * r + a[3]) * r + a[4]) * r + a[5]) * q
-      / (((((b[0] * r + b[1]) * r + b[2]) * r + b[3]) * r + b[4]) * r + 1);
-  }
-  q = Math.sqrt(-2 * Math.log(1 - p));
-  return -(((((c[0] * q + c[1]) * q + c[2]) * q + c[3]) * q + c[4]) * q + c[5])
-    / ((((d[0] * q + d[1]) * q + d[2]) * q + d[3]) * q + 1);
-}
-
-function ConfidenceExplorer({ metrics }) {
-  const withCI = (metrics || []).filter(
-    (metric) => metric.uncertainty_low != null && metric.uncertainty_high != null,
-  );
-  const [selected, setSelected] = useState(null);
-  const [confidence, setConfidence] = useState(95);
-
-  useEffect(() => {
-    if (!selected && withCI.length > 0) setSelected(withCI[0].name);
-  }, [withCI, selected]);
-
-  if (withCI.length === 0) {
-    return <p className="empty-note">No interval-bearing metrics are present in the loaded summary.</p>;
-  }
-  const metric = withCI.find((item) => item.name === selected) ?? withCI[0];
-  const sigma = ((metric.uncertainty_high - metric.uncertainty_low) / 2) / 1.959963984540054;
-  const zLevel = inverseNormalCDF(0.5 + confidence / 200);
-  const lo = metric.estimate - zLevel * sigma;
-  const hi = metric.estimate + zLevel * sigma;
-
-  return (
-    <div className="confidence-grid">
-      <div className="confidence-control">
-        <label htmlFor="metric-select">Metric</label>
-        <select id="metric-select" value={metric.name} onChange={(event) => setSelected(event.target.value)}>
-          {withCI.map((item) => (
-            <option key={item.name} value={item.name}>{item.name.replace(/_/g, ' ')}</option>
-          ))}
-        </select>
-        <label htmlFor="confidence-range">
-          Confidence level <strong>{confidence.toFixed(1)}%</strong>
-        </label>
-        <input
-          id="confidence-range"
-          type="range"
-          min="50"
-          max="99.9"
-          step="0.1"
-          value={confidence}
-          onChange={(event) => setConfidence(Number(event.target.value))}
-        />
-      </div>
-      <div className="interval-readout">
-        <p>Approximate interval</p>
-        <strong>[{lo.toPrecision(4)}, {hi.toPrecision(4)}]</strong>
-        <span>{metric.units} · estimate {metric.estimate.toPrecision(4)} · n = {metric.sample_size}</span>
-      </div>
-      <p className="confidence-note">
-        This client-side sensitivity view rescales the reported 95% bootstrap interval under a
-        normal sampling approximation. It does not rerun the bootstrap; the 95% result in the
-        loaded summary remains the computed result from <code>uncertainty.py</code>.
-      </p>
-    </div>
-  );
-}
-
 function WarningStatus({ state }) {
   if (state.loading) return <p className="warning-pending">Reading results/warnings.json…</p>;
   if (state.error) {
@@ -205,6 +122,20 @@ function WarningStatus({ state }) {
   );
 }
 
+function SensitivityLedger({ state }) {
+  if (state.loading) return <p className="empty-note">Reading results/sensitivity.json…</p>;
+  if (state.error || !state.data) return <p className="error-note">Sensitivity evidence unavailable.</p>;
+  const value = (number) => `${(100 * number).toFixed(1)}%`;
+  return (
+    <div className="metric-mosaic">
+      <article className="metric-card"><p className="metric-name">Declared designs</p><p className="metric-value">{state.data.design_count}</p></article>
+      <article className="metric-card"><p className="metric-name">Conditional geometric range</p><p className="metric-value">{value(state.data.conditional_geometric_throughput_range[0])}–{value(state.data.conditional_geometric_throughput_range[1])}</p></article>
+      <article className="metric-card"><p className="metric-name">Effective scenario range</p><p className="metric-value">{value(state.data.effective_throughput_range[0])}–{value(state.data.effective_throughput_range[1])}</p></article>
+      <p className="confidence-note">{state.data.claim_boundary}</p>
+    </div>
+  );
+}
+
 function FigureGallery({ figures }) {
   return (
     <div className="figure-stack">
@@ -232,6 +163,7 @@ export default function App() {
   const summary = useJson('./results/summary.json');
   const warnings = useJson('./results/warnings.json');
   const benchmarks = useJson('./results/benchmarks.json');
+  const sensitivity = useJson('./results/sensitivity.json');
 
   if (project.loading) return <main className="page-state">Loading instrument dossier…</main>;
   if (project.error || !project.data) {
@@ -318,9 +250,9 @@ export default function App() {
             )}
           </section>
 
-          <section id="confidence" className="dossier-section confidence-section">
-            <SectionHeading eyebrow="Interactive check" title="Confidence-level explorer" icon={Atom} />
-            <ConfidenceExplorer metrics={summary.data?.metrics} />
+          <section id="sensitivity" className="dossier-section confidence-section">
+            <SectionHeading eyebrow="20 predeclared scenarios" title="Estimator sensitivity" icon={ShieldCheck} />
+            <SensitivityLedger state={sensitivity} />
           </section>
 
           <section id="figures" className="dossier-section figures-section">
@@ -380,6 +312,8 @@ export default function App() {
               <div className="download-links">
                 <a href="./manifest.csv" download>data/manifest.csv</a>
                 <a href="./results/summary.json" download>results/summary.json</a>
+                <a href="./results/sensitivity.json" download>results/sensitivity.json</a>
+                <a href="./results/sensitivity_designs.csv" download>results/sensitivity_designs.csv</a>
                 {benchmarks.data && <a href="./results/benchmarks.json" download>results/benchmarks.json</a>}
               </div>
               <p>The manifest records the source, retrieval time, digest, selection reason, and terms for every verified instrument parameter used by the model.</p>

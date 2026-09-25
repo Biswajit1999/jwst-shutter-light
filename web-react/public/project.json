@@ -4,31 +4,31 @@
   "category": "Astrophysics instrumentation / modelling",
   "status": "BUILD_FIRST",
   "priority": 9.0,
-  "question": "How do target-centering error, wavelength-dependent PSF width and shutter operability alter simplified NIRSpec MSA throughput?",
+  "question": "Conditional on a planned MSA shutter opening, how do target-centering error and wavelength-dependent PSF width alter simplified geometric slit throughput, and what is the separate penalty under a conservative 4% command-failure scenario?",
   "gap": "An instrument-physics QA sandbox; not a replacement for the JWST pipeline or official path-loss corrections.",
   "dataMode": "official instrument parameters + synthetic Monte Carlo",
   "productionTrials": 20000,
-  "criticalCorrection": "The 0.7795 headline is retired. It incorrectly multiplied conditional slit transmission by an aggregate planning-operability fraction. APT/MPT uses a position-specific operability map; static failed shutters constrain assignment and multiplexing, not photon throughput after a target is planned. Corrected conditional and command-failure estimands are being generated.",
+  "criticalCorrection": "The 0.7795 headline is retired. It incorrectly multiplied conditional slit transmission by an aggregate planning-operability fraction. The corrected primary estimate is 0.9490 conditional geometric throughput; a separate conservative 4% random non-opening scenario gives 0.9100 effective throughput. Neither is a forecast for a specific observation.",
   "novelty": "An instrument-physics QA sandbox built from verified public NIRSpec instrument parameters; not a replacement for the JWST pipeline or official path-loss corrections, and not a novel scientific claim beyond this bounded model.",
   "figures": [
     { "id": "fig01_msa_geometry", "label": "MSA geometry" },
     { "id": "fig02_throughput_vs_offset", "label": "Throughput vs centering offset" },
     { "id": "fig03_wavelength_loss", "label": "Throughput vs wavelength" },
-    { "id": "fig04_failed_shutter_heatmap", "label": "Failed-shutter heatmap (illustrative)" }
+    { "id": "fig04_failed_shutter_heatmap", "label": "Command-success scenario (illustrative)" }
   ],
   "validationContract": [
     "Monte Carlo placement uncertainty (bootstrap, 1000 resamples)",
     "throughput bounds (clipped to [0,1], checked every trial)",
     "wavelength sensitivity (diffraction-limited PSF broadening)",
-    "operability-mask sensitivity (shutter operability fraction)",
+    "0–4% commanded-open failure sensitivity separated from planning operability",
     "analytic zero-offset closed-form cross-check",
     "injection-recovery of a known effective centering sigma"
   ],
-  "methodology": "Each Monte Carlo trial draws an independent 2D target-centering offset (Gaussian, fiducial sigma=20 mas, the verified MSA target-acquisition in-flight accuracy), a wavelength uniform on the verified 0.6-5.3 micron NIRSpec range, and a shutter-open Bernoulli draw at the verified 82.5% in-flight operability fraction. The PSF is modelled as a circularly-symmetric 2D Gaussian whose sigma follows the diffraction-limited lambda/D scaling law (D=6.5 m), calibrated to the verified 80 mas FWHM anchor at 2.5 micron. Geometric slit transmission through the rectangular shutter aperture is the exact product of two independent 1D Gaussian-CDF integrals; shutters that failed closed contribute zero throughput. Deterministic diagnostic sweeps (throughput vs offset; throughput vs wavelength) and an illustrative shutter-operability heatmap accompany the main trial ensemble.",
+  "methodology": "Each trial draws a 2D target-centering offset (Gaussian, fiducial sigma=20 mas) and a wavelength uniform on 0.6-5.3 micron. Conditional geometric throughput is computed through the rectangular aperture with a Gaussian-equivalent PSF calibrated to 80 mas FWHM at 2.5 micron. A separate 96% commanded-open success scenario represents the current STScI statement that up to 4% of shutters otherwise classified as operable may remain closed. Static failed, vignetted, short-masked, and failed-open shutters are excluded from throughput: APT/MPT handles them with a position-specific planning map.",
   "assumptions": [
     "PSF modelled as a circularly-symmetric 2D Gaussian, not the true NIRSpec Airy/diffraction pattern with wings.",
     "Pure diffraction-limited lambda/D PSF scaling applied across the full 0.6-5.3 micron NIRSpec range, though the literature anchor only confirms Strehl>0.8 above 2.46 micron (VERIFICATION_PENDING).",
-    "Shutter failures modelled as independent per-shutter Bernoulli draws at the verified aggregate 82.5% operability fraction; the true spatial failure pattern is not reproduced (VERIFICATION_PENDING).",
+    "The 4% non-opening boundary is simulated independently only as a conservative scenario; real command failures and static operability are spatially structured.",
     "Field-averaged shutter pitch/open-area values used; true values vary ~1-4% across the field of view due to optical distortion."
   ],
   "limitations": [
