@@ -14,7 +14,7 @@ An instrument-physics QA sandbox; not a replacement for the JWST pipeline or off
 
 ## Key result
 
-A production Monte Carlo run (20,000 trials, seeded, 0.315s wall time) using verified real instrument parameters (Ferruit et al. 2022, arXiv:2202.03306; Rawle et al. 2022, arXiv:2208.04673; Jakobsen et al. 2022, arXiv:2202.03305) gives a mean geometric slit throughput of 0.7795 (95% bootstrap CI [0.7743, 0.7845]), median 0.9512. 17.85% of trials draw a closed shutter, contributing zero throughput; the mean throughput restricted to open-shutter trials only is 0.9488. The analytic-limit validation confirms the numerical transmission model matches an independently-derived closed-form erf expression to <1e-9 relative precision at zero offset, and a known injected effective PSF width (55 mas) is recovered via a normalized fit to <0.1% relative error.
+**Correction in progress:** the former 0.7795 headline is retired. It multiplied conditional geometric slit transmission by a 2022 aggregate operability fraction, even though APT/MPT uses a position-specific operability map to plan targets into viable shutters. Static operability constrains assignment and multiplexing; it is not an independent photon-loss draw after planning. Official STScI documentation now also distinguishes a separate random non-opening rate of up to 4% for shutters otherwise classified as operable. See [SCIENTIFIC_AUDIT.md](SCIENTIFIC_AUDIT.md) for the evidence, consequence, and corrected analysis contract.
 
 ## Reproducing this result
 

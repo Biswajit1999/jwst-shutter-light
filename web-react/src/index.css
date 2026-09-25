@@ -102,6 +102,10 @@ a { color: inherit; }
 
 .demo-banner { align-items: center; background: #4d1e0d; border-bottom: 1px solid #a95825; color: #ffd4a4; display: flex; gap: 0.8rem; padding: 1rem max(1.4rem, calc((100vw - 1460px) / 2 + 2.5rem)); }
 .demo-banner p { font-size: 0.82rem; line-height: 1.5; margin: 0; }
+.correction-banner { align-items: flex-start; background: #2b1110; border-bottom: 1px solid #ef7d57; border-top: 1px solid #ef7d57; color: #ffe8dc; display: flex; gap: 0.9rem; padding: 1.2rem max(1.4rem, calc((100vw - 1460px) / 2 + 2.5rem)); }
+.correction-banner svg { color: #ff9b73; flex: 0 0 auto; margin-top: 0.15rem; }
+.correction-banner strong { color: #ffb48f; display: block; font-size: 0.72rem; letter-spacing: 0.16em; margin-bottom: 0.3rem; text-transform: uppercase; }
+.correction-banner p { font-size: 0.86rem; line-height: 1.65; margin: 0; max-width: 88rem; }
 
 .dossier-layout { display: grid; gap: 4rem; grid-template-columns: 230px minmax(0, 1fr); margin: 0 auto; max-width: 1460px; padding: 7rem 2.5rem 8rem; }
 .index-rail { align-self: start; position: sticky; top: 2rem; }

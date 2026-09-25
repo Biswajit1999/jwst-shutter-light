@@ -270,6 +270,13 @@ export default function App() {
         </div>
       </header>
 
+      {p.criticalCorrection && (
+        <aside className="correction-banner" role="status">
+          <AlertTriangle size={22} />
+          <div><strong>Scientific correction</strong><p>{p.criticalCorrection}</p></div>
+        </aside>
+      )}
+
       {isSmallTrialDemo && (
         <aside className="demo-banner">
           <AlertTriangle size={19} />

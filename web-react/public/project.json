@@ -8,6 +8,7 @@
   "gap": "An instrument-physics QA sandbox; not a replacement for the JWST pipeline or official path-loss corrections.",
   "dataMode": "official instrument parameters + synthetic Monte Carlo",
   "productionTrials": 20000,
+  "criticalCorrection": "The 0.7795 headline is retired. It incorrectly multiplied conditional slit transmission by an aggregate planning-operability fraction. APT/MPT uses a position-specific operability map; static failed shutters constrain assignment and multiplexing, not photon throughput after a target is planned. Corrected conditional and command-failure estimands are being generated.",
   "novelty": "An instrument-physics QA sandbox built from verified public NIRSpec instrument parameters; not a replacement for the JWST pipeline or official path-loss corrections, and not a novel scientific claim beyond this bounded model.",
   "figures": [
     { "id": "fig01_msa_geometry", "label": "MSA geometry" },
