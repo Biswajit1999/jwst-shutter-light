@@ -15,7 +15,7 @@ from jwst_nirspec_msa_throughput_sandbox.geometry import rectangular_aperture_tr
 def test_run_pipeline_basic(config, geometry, psf_model):
     result = run_pipeline(config, n_trials=500, geometry=geometry, psf_model=psf_model, seed=1)
     assert result.monte_carlo.n_trials == 500
-    assert 0.0 <= result.monte_carlo.mean_throughput <= 1.0
+    assert 0.0 <= result.monte_carlo.mean_geometric_throughput <= 1.0
     assert len(result.offset_sweep) > 0
     assert len(result.wavelength_sweep) > 0
     assert result.failed_shutter_heatmap.size > 0
@@ -35,7 +35,9 @@ def test_run_pipeline_warns_below_minimum_sample_size(config, geometry, psf_mode
 def test_run_pipeline_deterministic_with_seed(config, geometry, psf_model):
     r1 = run_pipeline(config, n_trials=300, geometry=geometry, psf_model=psf_model, seed=99)
     r2 = run_pipeline(config, n_trials=300, geometry=geometry, psf_model=psf_model, seed=99)
-    assert r1.monte_carlo.mean_throughput == pytest.approx(r2.monte_carlo.mean_throughput)
+    assert r1.monte_carlo.mean_geometric_throughput == pytest.approx(
+        r2.monte_carlo.mean_geometric_throughput
+    )
 
 
 def test_injection_recovery_effective_sigma(geometry, psf_model):

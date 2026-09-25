@@ -15,7 +15,7 @@ def test_generate_trials_deterministic_with_seed():
     a = generate_trials(100, 20.0, 0.6, 5.3, 0.825, seed=42)
     b = generate_trials(100, 20.0, 0.6, 5.3, 0.825, seed=42)
     assert np.array_equal(a.dx_mas, b.dx_mas)
-    assert np.array_equal(a.shutter_open, b.shutter_open)
+    assert np.array_equal(a.command_succeeded, b.command_succeeded)
 
 
 def test_generate_trials_wavelength_within_bounds():
@@ -23,9 +23,9 @@ def test_generate_trials_wavelength_within_bounds():
     assert np.all(trials.wavelength_um >= 1.0) and np.all(trials.wavelength_um <= 3.0)
 
 
-def test_generate_trials_shutter_operability_fraction_converges():
+def test_generate_trials_command_success_probability_converges():
     trials = generate_trials(20000, 20.0, 0.6, 5.3, 0.3, seed=7)
-    assert np.mean(trials.shutter_open) == pytest.approx(0.3, abs=0.02)
+    assert np.mean(trials.command_succeeded) == pytest.approx(0.3, abs=0.02)
 
 
 def test_generate_trials_rejects_zero_trials():
@@ -38,7 +38,7 @@ def test_generate_trials_rejects_negative_trials():
         generate_trials(-5, 20.0, 0.6, 5.3, 0.825, seed=1)
 
 
-def test_generate_trials_rejects_bad_operability_fraction():
+def test_generate_trials_rejects_bad_command_success_probability():
     with pytest.raises(InsufficientDataError):
         generate_trials(100, 20.0, 0.6, 5.3, 1.5, seed=1)
 
@@ -46,8 +46,8 @@ def test_generate_trials_rejects_bad_operability_fraction():
 def test_run_monte_carlo_basic(geometry, psf_model):
     result = run_monte_carlo(2000, 20.0, 0.6, 5.3, 0.825, geometry, psf_model, seed=20260713)
     assert result.n_trials == 2000
-    assert 0.0 <= result.mean_throughput <= 1.0
-    assert result.fraction_shutter_closed == pytest.approx(1 - 0.825, abs=0.03)
+    assert 0.0 <= result.mean_geometric_throughput <= 1.0
+    assert result.fraction_command_failed == pytest.approx(1 - 0.825, abs=0.03)
 
 
 def test_run_monte_carlo_zero_trials_raises(geometry, psf_model):
@@ -57,8 +57,8 @@ def test_run_monte_carlo_zero_trials_raises(geometry, psf_model):
 
 def test_all_shutters_closed_gives_zero_throughput(geometry, psf_model):
     result = run_monte_carlo(500, 20.0, 0.6, 5.3, 0.0, geometry, psf_model, seed=1)
-    assert result.mean_throughput == 0.0
-    assert result.fraction_shutter_closed == pytest.approx(1.0)
+    assert result.mean_effective_throughput == 0.0
+    assert result.fraction_command_failed == pytest.approx(1.0)
 
 
 def test_failed_shutter_grid_shape_and_fraction():

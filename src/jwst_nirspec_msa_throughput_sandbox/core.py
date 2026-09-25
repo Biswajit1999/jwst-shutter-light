@@ -169,16 +169,16 @@ def run_pipeline(
         centering_sigma_mas=mc_cfg.centering_sigma_mas,
         wavelength_min_um=mc_cfg.wavelength_min_um,
         wavelength_max_um=mc_cfg.wavelength_max_um,
-        operability_fraction=mc_cfg.operability_fraction,
+        command_success_probability=mc_cfg.command_success_probability,
         geometry=geometry,
         psf_model=psf_model,
         seed=run_seed,
     )
 
-    if mc_result.fraction_shutter_closed > 0.5:
+    if mc_result.fraction_command_failed > 0.5:
         warnings.append(
-            f"more than half of trials drew a closed shutter (fraction_shutter_closed="
-            f"{mc_result.fraction_shutter_closed:.3f}); operability_fraction may be misconfigured"
+            f"more than half of planned-shutter commands failed (fraction_command_failed="
+            f"{mc_result.fraction_command_failed:.3f}); command_success_probability may be misconfigured"
         )
 
     fiducial_wavelength_um = float(np.mean([mc_cfg.wavelength_min_um, mc_cfg.wavelength_max_um]))
@@ -191,14 +191,16 @@ def run_pipeline(
     )
 
     try:
-        heatmap = failed_shutter_grid(30, 15, mc_cfg.operability_fraction, seed=run_seed + 1)
+        heatmap = failed_shutter_grid(
+            30, 15, mc_cfg.command_success_probability, seed=run_seed + 1
+        )
     except InsufficientDataError as exc:
         warnings.append(f"failed_shutter_grid skipped: {exc}")
         heatmap = np.zeros((0, 0), dtype=bool)
 
     try:
         throughput_bootstrap = bootstrap_statistic(
-            mc_result.throughput,
+            mc_result.throughput[mc_result.trial_inputs.command_succeeded],
             statistic=lambda a: float(np.mean(a)),
             n_resamples=config.validation.bootstrap_resamples,
             seed=run_seed,
@@ -207,7 +209,9 @@ def run_pipeline(
     except InsufficientDataError as exc:
         warnings.append(f"bootstrap skipped: {exc}")
         throughput_bootstrap = BootstrapResult(
-            estimate=mc_result.mean_throughput, ci_low=float("nan"), ci_high=float("nan"),
+            estimate=mc_result.mean_geometric_throughput,
+            ci_low=float("nan"),
+            ci_high=float("nan"),
             n_resamples=0, confidence_level=config.validation.confidence_level,
         )
 

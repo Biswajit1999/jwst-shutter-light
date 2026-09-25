@@ -61,11 +61,11 @@ def run(config_path: Path, results_dir: Path, n_trials: int, run_label: str) -> 
 
     mc = result.monte_carlo
     metrics = [
-        Metric(name="mean_throughput", estimate=mc.mean_throughput, units="dimensionless", sample_size=mc.n_trials,
+        Metric(name="mean_geometric_throughput_given_command_success", estimate=mc.mean_geometric_throughput, units="dimensionless", sample_size=int(mc.trial_inputs.command_succeeded.sum()),
                uncertainty_low=result.throughput_bootstrap.ci_low, uncertainty_high=result.throughput_bootstrap.ci_high),
-        Metric(name="median_throughput", estimate=mc.median_throughput, units="dimensionless", sample_size=mc.n_trials),
-        Metric(name="fraction_shutter_closed", estimate=mc.fraction_shutter_closed, units="dimensionless", sample_size=mc.n_trials),
-        Metric(name="mean_throughput_open_only", estimate=mc.mean_throughput_open_only, units="dimensionless", sample_size=mc.n_trials),
+        Metric(name="median_geometric_throughput_given_command_success", estimate=mc.median_geometric_throughput, units="dimensionless", sample_size=int(mc.trial_inputs.command_succeeded.sum())),
+        Metric(name="fraction_command_failed_worst_case_scenario", estimate=mc.fraction_command_failed, units="dimensionless", sample_size=mc.n_trials),
+        Metric(name="mean_effective_throughput_worst_case_scenario", estimate=mc.mean_effective_throughput, units="dimensionless", sample_size=mc.n_trials),
     ]
     for point in result.offset_sweep:
         metrics.append(Metric(

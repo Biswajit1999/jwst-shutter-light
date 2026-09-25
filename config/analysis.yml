@@ -35,5 +35,7 @@ monte_carlo:
   centering_sigma_mas: 20.0
   wavelength_min_um: 0.6
   wavelength_max_um: 5.3
-  # in-flight operability fraction (Rawle et al. 2022, arXiv:2208.04673 abstract)
-  operability_fraction: 0.825
+  # Conservative boundary from current STScI documentation: up to 4% of
+  # shutters classified as operable may remain closed when commanded.
+  # Static operability is handled by APT/MPT planning and is not sampled here.
+  command_success_probability: 0.96

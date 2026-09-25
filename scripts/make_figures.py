@@ -133,26 +133,29 @@ def make_figures(out_dir: Path, config_path: Path, n_trials: int, run_label: str
     _sidecar(path, data_kind=data_kind, sample_size=len(wavelengths), units="dimensionless throughput vs micron", config_path=config_path)
 
     # 4. failed-shutter heatmap (illustrative synthetic realization at the
-    # verified aggregate operability fraction; NOT a real per-shutter map)
+    # conservative command-success probability; NOT a static operability map)
     heatmap = result.failed_shutter_heatmap
     fig, ax = plt.subplots(figsize=(8, 4.5))
     if heatmap.size:
         im = ax.imshow(heatmap, cmap="Greens", vmin=0, vmax=1, aspect="auto", origin="lower")
-        fig.colorbar(im, ax=ax, label="Operable (1) / failed-closed (0)")
+        fig.colorbar(im, ax=ax, label="Command succeeded (1) / did not open (0)")
     ax.set_xlabel("Shutter column (illustrative sub-grid)")
     ax.set_ylabel("Shutter row (illustrative sub-grid)")
-    operable_fraction = float(heatmap.mean()) if heatmap.size else float("nan")
+    success_fraction = float(heatmap.mean()) if heatmap.size else float("nan")
     ax.set_title(
-        f"Synthetic illustrative shutter-operability realization "
-        f"(independent Bernoulli draws @ verified aggregate {config.monte_carlo.operability_fraction:.1%}, "
-        f"realized {operable_fraction:.1%})\nNOT a real MSA operability map — see docs/ASSUMPTIONS_AND_LIMITATIONS.md"
+        f"Synthetic commanded-open outcome realization "
+        f"(independent draws @ {config.monte_carlo.command_success_probability:.1%}, "
+        f"realized {success_fraction:.1%})\nNOT a static MSA operability map"
     )
     path = _save(fig, out_dir, "fig04_failed_shutter_heatmap")
     _sidecar(path, data_kind="synthetic_illustrative", sample_size=int(heatmap.size), units="boolean operable mask", config_path=config_path)
 
     print(f"Wrote 4 figures (SVG+PNG+JSON) to {out_dir} at n_trials={n_trials} ({run_label})")
-    print(f"  mean_throughput={mc.mean_throughput:.4f} median={mc.median_throughput:.4f} "
-          f"fraction_shutter_closed={mc.fraction_shutter_closed:.4f}")
+    print(
+        f"  mean_geometric_throughput={mc.mean_geometric_throughput:.4f} "
+        f"median_geometric_throughput={mc.median_geometric_throughput:.4f} "
+        f"fraction_command_failed={mc.fraction_command_failed:.4f}"
+    )
 
 
 def main() -> None:

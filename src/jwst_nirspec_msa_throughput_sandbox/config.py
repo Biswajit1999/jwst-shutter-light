@@ -61,7 +61,7 @@ class MonteCarloConfig:
     centering_sigma_mas: float
     wavelength_min_um: float
     wavelength_max_um: float
-    operability_fraction: float
+    command_success_probability: float
 
 
 @dataclass(frozen=True)
@@ -148,12 +148,14 @@ def load_config(path: str | Path) -> AnalysisConfig:
         centering_sigma_mas=float(_require(monte_carlo_raw, "centering_sigma_mas", "monte_carlo")),
         wavelength_min_um=float(_require(monte_carlo_raw, "wavelength_min_um", "monte_carlo")),
         wavelength_max_um=float(_require(monte_carlo_raw, "wavelength_max_um", "monte_carlo")),
-        operability_fraction=float(_require(monte_carlo_raw, "operability_fraction", "monte_carlo")),
+        command_success_probability=float(
+            _require(monte_carlo_raw, "command_success_probability", "monte_carlo")
+        ),
     )
     if monte_carlo.demo_trials <= 0 or monte_carlo.production_trials <= 0:
         raise DataSchemaError("monte_carlo.demo_trials and production_trials must be positive")
-    if not (0.0 <= monte_carlo.operability_fraction <= 1.0):
-        raise DataSchemaError("monte_carlo.operability_fraction must be in [0, 1]")
+    if not (0.0 <= monte_carlo.command_success_probability <= 1.0):
+        raise DataSchemaError("monte_carlo.command_success_probability must be in [0, 1]")
     if monte_carlo.wavelength_min_um >= monte_carlo.wavelength_max_um:
         raise DataSchemaError("monte_carlo.wavelength_min_um must be < wavelength_max_um")
 
