@@ -1,0 +1,29 @@
+{
+  "design_count": 20,
+  "centering_sigma_mas": [
+    10.0,
+    20.0,
+    25.0,
+    100.0
+  ],
+  "command_failure_fractions": [
+    0.0,
+    0.01,
+    0.02,
+    0.03,
+    0.04
+  ],
+  "primary_design": {
+    "centering_sigma_mas": 20.0,
+    "command_failure_fraction": 0.04
+  },
+  "conditional_geometric_throughput_range": [
+    0.6184902575767879,
+    0.9568178348608257
+  ],
+  "effective_throughput_range": [
+    0.593070307990382,
+    0.9567476547265981
+  ],
+  "claim_boundary": "Synthetic Gaussian-PSF sensitivity scenarios, not predictions for a specific planned MOS target, MPT configuration, exposure, or calibrated spectrum."
+}
