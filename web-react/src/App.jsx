@@ -16,6 +16,7 @@ const JwstHero = lazy(() => import('./JwstHero.jsx'));
 
 const sectionLinks = [
   ['measurements', 'Measurements'],
+  ['interpretation', 'Interpretation'],
   ['sensitivity', 'Sensitivity'],
   ['figures', 'Figure records'],
   ['provenance', 'Provenance'],
@@ -47,6 +48,94 @@ function useJson(path) {
 
 function formatEstimate(value) {
   return typeof value === 'number' ? value.toPrecision(4) : String(value);
+}
+
+function findMetric(summary, name) {
+  return summary?.metrics?.find((metric) => metric.name === name);
+}
+
+function formatPercent(value, digits = 2) {
+  return typeof value === 'number' ? `${(100 * value).toFixed(digits)}%` : '—';
+}
+
+function HeroAnalysis({ summary, sensitivity }) {
+  const conditional = findMetric(summary, 'mean_geometric_throughput_given_command_success');
+  const effective = findMetric(summary, 'mean_effective_throughput_worst_case_scenario');
+  const interval = conditional?.uncertainty_low != null && conditional?.uncertainty_high != null
+    ? `${formatPercent(conditional.uncertainty_low)}–${formatPercent(conditional.uncertainty_high)}`
+    : '—';
+  const designRange = sensitivity?.effective_throughput_range
+    ? `${formatPercent(sensitivity.effective_throughput_range[0], 1)}–${formatPercent(sensitivity.effective_throughput_range[1], 1)}`
+    : '—';
+
+  return (
+    <section className="hero-analysis" aria-label="Analysis snapshot">
+      <p className="hero-analysis-label">Analysis snapshot · generated artifacts</p>
+      <dl>
+        <div>
+          <dt>Conditional mean</dt>
+          <dd>{formatPercent(conditional?.estimate)}</dd>
+          <span>given shutter command success</span>
+        </div>
+        <div>
+          <dt>Monte Carlo 95% interval</dt>
+          <dd>{interval}</dd>
+          <span>{conditional?.sample_size?.toLocaleString() ?? '—'} successful trials</span>
+        </div>
+        <div>
+          <dt>4% failure scenario</dt>
+          <dd>{formatPercent(effective?.estimate)}</dd>
+          <span>effective mean · sensitivity case</span>
+        </div>
+        <div>
+          <dt>20-design envelope</dt>
+          <dd>{designRange}</dd>
+          <span>effective range · not a forecast</span>
+        </div>
+      </dl>
+    </section>
+  );
+}
+
+function InterpretationLedger({ summary, sensitivity }) {
+  const conditional = findMetric(summary, 'mean_geometric_throughput_given_command_success');
+  const effective = findMetric(summary, 'mean_effective_throughput_worst_case_scenario');
+  const geometricLoss = conditional ? 1 - conditional.estimate : null;
+  const failurePenalty = conditional && effective ? conditional.estimate - effective.estimate : null;
+  const effectiveRange = sensitivity?.effective_throughput_range;
+  const envelopeWidth = effectiveRange ? effectiveRange[1] - effectiveRange[0] : null;
+
+  return (
+    <div className="interpretation-ledger">
+      <article>
+        <p>01 · Conditional geometry</p>
+        <strong>{formatPercent(geometricLoss)}</strong>
+        <h3>Mean geometric loss</h3>
+        <span>
+          Average loss among trials in which the planned shutter opened. Static unavailable shutters are
+          assignment constraints and are not multiplied into this photon-throughput term.
+        </span>
+      </article>
+      <article>
+        <p>02 · Command scenario</p>
+        <strong>{failurePenalty == null ? '—' : `${(100 * failurePenalty).toFixed(2)} pp`}</strong>
+        <h3>Separate scenario penalty</h3>
+        <span>
+          Difference between the conditional mean and the conservative 4% non-opening scenario. This is
+          a declared stress case, not a calibrated probability for a target or epoch.
+        </span>
+      </article>
+      <article>
+        <p>03 · Specification sensitivity</p>
+        <strong>{envelopeWidth == null ? '—' : `${(100 * envelopeWidth).toFixed(1)} pp`}</strong>
+        <h3>Effective design-envelope width</h3>
+        <span>
+          Spread across 20 centering × command-failure designs. The envelope is a sensitivity map, not
+          a confidence interval, posterior distribution or observing forecast.
+        </span>
+      </article>
+    </div>
+  );
 }
 
 function SectionHeading({ eyebrow, title, icon: Icon }) {
@@ -182,23 +271,26 @@ export default function App() {
           <a href="#measurements" className="wordmark"><Orbit size={19} /> SHUTTER / LIGHT</a>
           <span>Experiment 08 · NIRSpec MSA</span>
         </nav>
-        <div className="hero-copy">
-          <p className="hero-kicker">{p.category}</p>
-          <h1>{p.title}</h1>
-          <p className="hero-question">{p.question}</p>
-          <div className="hero-badges">
-            <span>{p.status}</span>
-            <span>Priority {p.priority}/10</span>
-            <span>{p.productionTrials.toLocaleString()} production trials</span>
-            <span className={isSmallTrialDemo ? 'badge-demo' : 'badge-ready'}>
-              {isSmallTrialDemo ? 'Small-trial demo results' : 'Full Monte Carlo results'}
-            </span>
+        <div className="hero-layout">
+          <div className="hero-copy">
+            <p className="hero-kicker">{p.category}</p>
+            <h1>{p.title.replace('JWST/', 'JWST/\u200b')}</h1>
+            <p className="hero-question">{p.question}</p>
+            <div className="hero-badges">
+              <span>{p.status}</span>
+              <span>Priority {p.priority}/10</span>
+              <span>{p.productionTrials.toLocaleString()} production trials</span>
+              <span className={isSmallTrialDemo ? 'badge-demo' : 'badge-ready'}>
+                {isSmallTrialDemo ? 'Small-trial demo results' : 'Full Monte Carlo results'}
+              </span>
+            </div>
+            <HeroAnalysis summary={summary.data} sensitivity={sensitivity.data} />
           </div>
-        </div>
-        <div className="hero-stage">
-          <Suspense fallback={<div className="hero-fallback">Loading NASA spacecraft model…</div>}>
-            <JwstHero />
-          </Suspense>
+          <div className="hero-stage">
+            <Suspense fallback={<div className="hero-fallback">Loading NASA spacecraft model…</div>}>
+              <JwstHero />
+            </Suspense>
+          </div>
         </div>
       </header>
 
@@ -248,6 +340,16 @@ export default function App() {
             ) : !summary.loading && !summary.error && (
               <p className="empty-note">No result metrics yet. Run scripts/run_analysis.py first.</p>
             )}
+          </section>
+
+          <section id="interpretation" className="dossier-section interpretation-section">
+            <SectionHeading eyebrow="Estimator separation" title="What the numbers mean" icon={FileText} />
+            <InterpretationLedger summary={summary.data} sensitivity={sensitivity.data} />
+            <p className="interpretation-boundary">
+              The narrow Monte Carlo interval quantifies numerical sampling precision for the declared
+              simulation—not uncertainty in the Gaussian PSF approximation, centering distribution,
+              wavelength law, shutter map, or a real observation.
+            </p>
           </section>
 
           <section id="sensitivity" className="dossier-section confidence-section">

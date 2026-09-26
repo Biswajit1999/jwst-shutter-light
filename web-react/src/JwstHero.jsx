@@ -55,18 +55,18 @@ function WebbModel({ reducedMotion }) {
     const bounds = new Box3().setFromObject(scene);
     const center = bounds.getCenter(new Vector3());
     const size = bounds.getSize(new Vector3());
-    const scale = 5.5 / Math.max(size.x, size.y, size.z);
+    const scale = 6.0 / Math.max(size.x, size.y, size.z);
     return { scene, position: center.multiplyScalar(-1), scale };
   }, [gltf.scene]);
 
   useFrame((state, delta) => {
     if (!model.current || reducedMotion) return;
     model.current.rotation.y += delta * 0.08;
-    model.current.position.y = 0.18 + Math.sin(state.clock.elapsedTime * 0.36) * 0.045;
+    model.current.position.y = 0.08 + Math.sin(state.clock.elapsedTime * 0.36) * 0.04;
   });
 
   return (
-    <group ref={model} position={[0, 0.18, 0]} rotation={[0.32, -0.78, 0.08]}>
+    <group ref={model} position={[0, 0.08, 0]} rotation={[0.26, -0.72, 0.06]}>
       <group scale={normalized.scale}>
         <primitive object={normalized.scene} position={normalized.position} />
       </group>
@@ -86,7 +86,7 @@ export default function JwstHero() {
         aria-label="Animated three-dimensional model of the James Webb Space Telescope"
       >
         <Canvas
-          camera={{ position: [0, 0.1, 7.4], fov: 44 }}
+          camera={{ position: [0, 0.12, 7.9], fov: 42 }}
           dpr={[1, 1.5]}
           frameloop="demand"
           gl={{ antialias: true, powerPreference: 'low-power' }}
