@@ -62,11 +62,11 @@ function WebbModel({ reducedMotion }) {
   useFrame((state, delta) => {
     if (!model.current || reducedMotion) return;
     model.current.rotation.y += delta * 0.08;
-    model.current.position.y = Math.sin(state.clock.elapsedTime * 0.36) * 0.045;
+    model.current.position.y = 0.18 + Math.sin(state.clock.elapsedTime * 0.36) * 0.045;
   });
 
   return (
-    <group ref={model} rotation={[0.32, -0.78, 0.08]}>
+    <group ref={model} position={[0, 0.18, 0]} rotation={[0.32, -0.78, 0.08]}>
       <group scale={normalized.scale}>
         <primitive object={normalized.scene} position={normalized.position} />
       </group>
