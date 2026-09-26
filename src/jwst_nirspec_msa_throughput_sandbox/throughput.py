@@ -20,7 +20,10 @@ from dataclasses import dataclass
 import numpy as np
 
 from jwst_nirspec_msa_throughput_sandbox.exceptions import DataSchemaError
-from jwst_nirspec_msa_throughput_sandbox.geometry import MSAGeometry, rectangular_aperture_transmission
+from jwst_nirspec_msa_throughput_sandbox.geometry import (
+    MSAGeometry,
+    rectangular_aperture_transmission,
+)
 from jwst_nirspec_msa_throughput_sandbox.psf import PSFModel
 
 
@@ -104,8 +107,8 @@ def throughput_vs_wavelength_sweep(
 
 
 __all__ = [
-    "compute_throughput",
     "ThroughputSweepPoint",
+    "compute_throughput",
     "throughput_vs_offset_sweep",
     "throughput_vs_wavelength_sweep",
 ]

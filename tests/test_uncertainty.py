@@ -5,7 +5,10 @@ import pytest
 from scipy.optimize import curve_fit
 
 from jwst_nirspec_msa_throughput_sandbox.exceptions import ConvergenceError, InsufficientDataError
-from jwst_nirspec_msa_throughput_sandbox.uncertainty import bootstrap_statistic, check_fit_convergence
+from jwst_nirspec_msa_throughput_sandbox.uncertainty import (
+    bootstrap_statistic,
+    check_fit_convergence,
+)
 
 
 def test_bootstrap_statistic_reproducible_with_seed():

@@ -151,17 +151,17 @@ def shutter_grid_centers(geometry: MSAGeometry, n_x: int, n_y: int) -> tuple[np.
 
 
 __all__ = [
-    "SHUTTER_PITCH_X_MAS",
-    "SHUTTER_PITCH_Y_MAS",
-    "SHUTTER_OPEN_WIDTH_MAS",
-    "SHUTTER_OPEN_HEIGHT_MAS",
+    "DEFAULT_OPERABILITY_FRACTION",
+    "N_QUADRANTS",
     "SHUTTERS_PER_QUADRANT_X",
     "SHUTTERS_PER_QUADRANT_Y",
-    "N_QUADRANTS",
+    "SHUTTER_OPEN_HEIGHT_MAS",
+    "SHUTTER_OPEN_WIDTH_MAS",
+    "SHUTTER_PITCH_X_MAS",
+    "SHUTTER_PITCH_Y_MAS",
     "TOTAL_SHUTTERS",
-    "DEFAULT_OPERABILITY_FRACTION",
     "MSAGeometry",
-    "rectangular_aperture_transmission",
     "analytic_zero_offset_transmission",
+    "rectangular_aperture_transmission",
     "shutter_grid_centers",
 ]

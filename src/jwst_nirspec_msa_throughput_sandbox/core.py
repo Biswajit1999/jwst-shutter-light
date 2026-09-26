@@ -19,23 +19,36 @@ import numpy as np
 from scipy.optimize import curve_fit
 
 from jwst_nirspec_msa_throughput_sandbox.config import AnalysisConfig
-from jwst_nirspec_msa_throughput_sandbox.exceptions import ConvergenceError, DataSchemaError, InsufficientDataError
+from jwst_nirspec_msa_throughput_sandbox.exceptions import (
+    ConvergenceError,
+    DataSchemaError,
+    InsufficientDataError,
+)
 from jwst_nirspec_msa_throughput_sandbox.geometry import MSAGeometry
 from jwst_nirspec_msa_throughput_sandbox.logging_utils import get_logger
-from jwst_nirspec_msa_throughput_sandbox.monte_carlo import MonteCarloRunResult, failed_shutter_grid, run_monte_carlo
+from jwst_nirspec_msa_throughput_sandbox.monte_carlo import (
+    MonteCarloRunResult,
+    failed_shutter_grid,
+    run_monte_carlo,
+)
 from jwst_nirspec_msa_throughput_sandbox.psf import PSFModel
 from jwst_nirspec_msa_throughput_sandbox.throughput import (
     ThroughputSweepPoint,
     throughput_vs_offset_sweep,
     throughput_vs_wavelength_sweep,
 )
-from jwst_nirspec_msa_throughput_sandbox.uncertainty import BootstrapResult, FitConvergence, bootstrap_statistic, check_fit_convergence
+from jwst_nirspec_msa_throughput_sandbox.uncertainty import (
+    BootstrapResult,
+    FitConvergence,
+    bootstrap_statistic,
+    check_fit_convergence,
+)
 
 LOGGER = get_logger(__name__)
 
 # Deprecated starter helpers retained only so the original smoke test
 # (tests/test_starter_core.py) keeps passing; not used by run_pipeline.
-from dataclasses import dataclass as _dataclass  # noqa: E402
+from dataclasses import dataclass as _dataclass
 
 
 @_dataclass(frozen=True)
@@ -232,12 +245,12 @@ def run_pipeline(
 
 
 __all__ = [
-    "Summary",
-    "validate_numeric",
-    "robust_summary",
-    "demo_series",
-    "SigmaRecoveryResult",
-    "recover_effective_sigma",
     "PipelineResult",
+    "SigmaRecoveryResult",
+    "Summary",
+    "demo_series",
+    "recover_effective_sigma",
+    "robust_summary",
     "run_pipeline",
+    "validate_numeric",
 ]

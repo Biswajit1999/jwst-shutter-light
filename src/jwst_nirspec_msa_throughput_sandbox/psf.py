@@ -108,13 +108,13 @@ class PSFModel:
 
 
 __all__ = [
-    "JWST_MIRROR_DIAMETER_M",
-    "NIRSPEC_WAVELENGTH_MIN_UM",
-    "NIRSPEC_WAVELENGTH_MAX_UM",
     "DIFFRACTION_LIMIT_ONSET_UM",
+    "JWST_MIRROR_DIAMETER_M",
+    "NIRSPEC_WAVELENGTH_MAX_UM",
+    "NIRSPEC_WAVELENGTH_MIN_UM",
     "PSFModel",
     "diffraction_fwhm_mas",
     "fwhm_to_sigma_mas",
-    "psf_sigma_mas",
     "is_diffraction_limited",
+    "psf_sigma_mas",
 ]
