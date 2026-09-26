@@ -19,7 +19,10 @@ source_products:
     selection_reason: "4 quadrants x 365x171 shutters = 249660 total"
   - product_id: shutter_operability_fraction
     source: "Rawle et al. 2022, arXiv:2208.04673, abstract"
-    selection_reason: "In-flight operability fraction (82.5%), default Monte Carlo shutter-open probability"
+    selection_reason: "Historical aggregate planning context only; excluded from the throughput estimator"
+  - product_id: shutter_random_nonopening_boundary
+    source: "Current STScI NIRSpec MSA shutter-operability documentation"
+    selection_reason: "Up-to-4% random non-opening statement; used only as a separate sensitivity boundary"
   - product_id: nirspec_wavelength_range_um
     source: "Ferruit et al. 2022, arXiv:2202.03306"
     selection_reason: "NIRSpec operating wavelength range 0.6-5.3 um"
@@ -45,7 +48,7 @@ derivation:
 assumptions:
   - "PSF modelled as a circularly-symmetric 2D Gaussian (sigma_x = sigma_y), not the true NIRSpec Airy/diffraction pattern with wings; see docs/ASSUMPTIONS_AND_LIMITATIONS.md."
   - "Pure diffraction-limited lambda/D PSF scaling applied across the full 0.6-5.3 um NIRSpec range, though the literature anchor only confirms Strehl>0.8 above 2.46 um (VERIFICATION_PENDING, see psf.py docstring)."
-  - "Shutter failures modelled as independent per-shutter Bernoulli draws at the verified aggregate 82.5% operability fraction; the true spatial failure pattern (shorted rows/columns per Ferruit et al. 2022 Sec 2.4) is not reproduced (VERIFICATION_PENDING)."
+  - "Static operability is handled by position-specific observation planning and is not multiplied into conditional throughput. A separate independent 0-4% command-failure term is retained only as a conservative sensitivity scenario; real failures are spatially structured."
   - "Field-averaged shutter pitch/open-area values used; true values vary ~1-4% across the field of view due to optical distortion (not modelled)."
   - "Models only geometric slit-loss throughput; does not include detector QE, optical-train reflectivity or grating efficiency terms (see docs/RESEARCH_BLUEPRINT.md gap statement)."
 warnings: []

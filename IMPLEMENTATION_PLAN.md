@@ -1,5 +1,7 @@
 # Implementation Plan — JWST/NIRSpec Micro-Shutter Throughput Loss Sandbox
 
+> **Superseded scientific design.** This file records the original implementation plan. Its treatment of the 82.5% aggregate operability statistic as a Bernoulli photon-loss term was invalidated on 2026-09-26. The authoritative design is `SCIENTIFIC_AUDIT.md`, `docs/ASSUMPTIONS_AND_LIMITATIONS.md`, and the current configuration.
+
 Author: Biswajit Jana. Local implementation pass, project from the
 30-project pack (`BUILD_FIRST`, priority 9.0/10). No git operations performed.
 

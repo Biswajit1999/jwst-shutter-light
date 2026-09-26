@@ -10,7 +10,7 @@ Astrophysics instrumentation / modelling
 
 ## Bounded scientific question
 
-How do target-centering error, wavelength-dependent PSF width and shutter operability alter simplified NIRSpec MSA throughput?
+Conditional on a planned MSA shutter opening, how do target-centering error and wavelength-dependent PSF width alter simplified geometric slit throughput, and what is the separate effect of a 0–4% random command-failure sensitivity scenario?
 
 ## Gap statement
 
@@ -25,14 +25,14 @@ The first release must be completable as a focused 4–6 hour implementation pas
 - Monte Carlo placement uncertainty
 - throughput bounds
 - wavelength sensitivity
-- operability-mask sensitivity
+- commanded-open failure sensitivity, explicitly separated from static planning operability
 
 ## Required figures
 
 1. MSA geometry
 2. throughput vs offset
 3. wavelength loss
-4. failed-shutter heatmap
+4. illustrative command-success scenario
 
 ## Reusable scientific modules
 

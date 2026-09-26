@@ -9,11 +9,13 @@
 
 \begin{abstract}
 This is a bounded, physically-grounded Monte Carlo sandbox exploring how
-target-centering error, wavelength-dependent point-spread-function (PSF)
-width and micro-shutter-array (MSA) operability jointly set a
-\emph{simplified} geometric slit-loss throughput for JWST/NIRSpec
+target-centering error and wavelength-dependent point-spread-function (PSF)
+width set a \emph{simplified} geometric slit-loss throughput conditional on
+a planned micro-shutter-array (MSA) shutter opening successfully. Static
+operability is a target-assignment constraint; random command failure is a
+separate sensitivity scenario for JWST/NIRSpec
 multi-object spectroscopy. All numeric instrument constants (shutter
-geometry, PSF anchor, operability fraction, target-acquisition accuracy) are
+geometry, PSF anchor, command-failure boundary, target-acquisition accuracy) are
 traced to verified public sources (Jakobsen et al. 2022; Ferruit et al. 2022;
 Rawle et al. 2022; NASA JWST spacecraft overview) --- see
 Section~\ref{sec:data} and \texttt{data/manifest.csv}. All throughput values
@@ -26,8 +28,9 @@ are read directly, unedited, from \texttt{results/summary.json}.
 \end{abstract}
 
 \section{Scientific question}
-How do target-centering error, wavelength-dependent PSF width and shutter
-operability alter simplified NIRSpec MSA throughput?
+Conditional on a planned shutter opening, how do target-centering error and
+wavelength-dependent PSF width alter geometric slit throughput, and what is
+the separate penalty under a conservative 0--4\% random non-opening scenario?
 
 \section{Data and provenance}
 \label{sec:data}
@@ -39,8 +42,8 @@ instrument parameters were verified via \texttt{WebFetch} against real
 public sources during the implementation session and are recorded, with
 exact source URLs, retrieval timestamps and content hashes, in
 \texttt{data/manifest.csv} (mirrored in \texttt{data/provenance.yml}):
-shutter pitch and open-aperture dimensions, MSA array layout, in-flight
-shutter operability fraction, NIRSpec wavelength range, the PSF FWHM
+shutter pitch and open-aperture dimensions, MSA array layout, historical
+operability context, the current random non-opening boundary, NIRSpec wavelength range, the PSF FWHM
 anchor at 2.5\,$\mu$m, the JWST primary mirror diameter, and the MSA
 target-acquisition accuracy requirement. Two items remain flagged
 \texttt{VERIFICATION\_PENDING} rather than fabricated (Section~\ref{sec:limitations}):
@@ -62,12 +65,15 @@ Gaussian-PSF assumption, not an additional approximation. Each Monte Carlo
 trial draws an independent 2-D centering offset
 ($\mathcal{N}(0,\sigma_{\mathrm{cent}}^2)$ per axis, fiducial
 $\sigma_{\mathrm{cent}}=20$\,mas, the verified MSATA in-flight accuracy), a
-wavelength uniform on $[0.6, 5.3]\,\mu$m, and a shutter-open Bernoulli draw at
-the verified 82.5\% in-flight operability fraction
-(\texttt{monte\_carlo.py}). \texttt{core.run\_pipeline} composes the trial
+wavelength uniform on $[0.6, 5.3]\,\mu$m. Conditional geometric throughput is
+estimated only for successful commands. A separate Bernoulli command-success
+draw, with failure varied from 0 to 4\%, defines a conservative sensitivity
+scenario (\texttt{monte\_carlo.py}); static operability is not multiplied into
+throughput because APT/MPT uses position-specific operability in target
+assignment. \texttt{core.run\_pipeline} composes the trial
 ensemble with two deterministic diagnostic sweeps (throughput vs.\ offset at
 fixed wavelength; throughput vs.\ wavelength at fixed offset) and an
-illustrative shutter-operability heatmap.
+illustrative command-success heatmap for the declared scenario.
 
 \emph{Scope note}: this models only the geometric slit-loss component of
 throughput --- not detector quantum efficiency, optical-train reflectivity or
@@ -114,17 +120,14 @@ at the production trial count configured in
 \texttt{config/analysis.yml} (\texttt{monte\_carlo.production\_trials} =
 20{,}000 trials).
 
-Averaged over the full trial ensemble (random offset, random wavelength,
-random shutter-open draw, $n=20{,}000$), the mean geometric slit throughput
-is $0.7795$ (95\% bootstrap CI $[0.7743, 0.7845]$), median $0.9512$. The gap
-between the mean and the much higher median reflects the bimodal mixture
-driving this metric: $17.85\%$ of trials draw a closed shutter
-(\texttt{fraction\_shutter\_closed}, contributing zero throughput), while the
-remaining open-shutter trials average $0.9488$
-(\texttt{mean\_throughput\_open\_only}) --- i.e. conditional on the shutter
-being open, target-centering error and PSF width alone cost only
-$\sim\!5\%$ of the geometric throughput on average, but the aggregate
-$82.5\%$ in-flight operability fraction dominates the overall mean. The
+Averaged over successful-command trials ($n=19{,}178$ in the seeded
+20{,}000-trial run), the mean conditional geometric throughput is $0.9490$
+(95\% bootstrap interval $[0.9482, 0.9499]$), with median $0.9777$. Under the
+separate 4\% random non-opening scenario, the realised failure fraction is
+$0.0411$ and the mean effective scenario throughput is $0.9100$. The former
+$0.7795$ headline is retired because it multiplied conditional transmission
+by an aggregate planning-operability fraction as though every statically
+unavailable shutter were an independent photon-loss event. The
 offset sweep (Figure~\ref{fig:offset}) shows the expected smooth,
 symmetric roll-off: throughput exceeds $0.98$ within $\pm 15$\,mas of
 perfect centering and falls to $\sim\!0.10$ by $\pm 150$\,mas, consistent
@@ -149,10 +152,10 @@ Strehl$>0.8$ above 2.46\,$\mu$m --- below that, the true PSF is likely
 somewhat broader than modelled here, so short-wavelength slit losses are
 likely somewhat \emph{underestimated} (\texttt{VERIFICATION\_PENDING}, no verified
 quantitative Strehl-vs-wavelength curve was found in the time available).
-Shutter failures are modelled as independent per-shutter Bernoulli draws at
-the verified \emph{aggregate} 82.5\% operability fraction; the real spatial
-failure pattern (e.g.\ shorted rows/columns, Ferruit et al. 2022 Sec 2.4) is
-not reproduced (\texttt{VERIFICATION\_PENDING}). Field-averaged shutter pitch/open-area
+Static shutter operability is position-specific planning information and is
+excluded from the throughput estimator. The 0--4\% random non-opening term is
+an independent sensitivity boundary, not a target-specific prediction; the
+real spatial and temporal failure structure is not reproduced. Field-averaged shutter pitch/open-area
 values are used; true values vary $\sim$1--4\% across the field of view due
 to optical distortion (not modelled). See
 \texttt{docs/ASSUMPTIONS\_AND\_LIMITATIONS.md} for the full list.
@@ -201,9 +204,9 @@ Software version, git commit and configuration SHA-256 are recorded in
 \begin{figure}
   \centering
   \includegraphics[width=0.7\textwidth]{../figures/fig04_failed_shutter_heatmap.png}
-  \caption{Synthetic illustrative shutter-operability realization
-  (independent Bernoulli draws at the verified aggregate 82.5\% fraction) ---
-  \textbf{not} a real MSA operability map.}
+  \caption{Synthetic illustrative command-success realization for the
+  conservative 4\% random non-opening scenario --- \textbf{not} a real MSA
+  operability map or a target-specific forecast.}
   \label{fig:heatmap}
 \end{figure}
 

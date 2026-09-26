@@ -5,7 +5,7 @@
 - Monte Carlo placement uncertainty
 - throughput bounds
 - wavelength sensitivity
-- operability-mask sensitivity
+- 0–4% commanded-open failure sensitivity, separated from planning operability
 
 ## Minimum acceptance rules
 

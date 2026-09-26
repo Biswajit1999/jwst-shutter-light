@@ -1,5 +1,7 @@
 # Local Completion Report — JWST/NIRSpec Micro-Shutter Throughput Loss Sandbox
 
+> **Superseded historical record.** The results and interpretations below describe the original implementation and must not be cited. The 0.7795 headline conflated static planning operability with conditional photon throughput; see `SCIENTIFIC_AUDIT.md` and the regenerated `results/` artifacts for the corrected estimands.
+
 Author: Biswajit Jana. This report documents a local implementation pass
 (project 8 of the 30-project pack, `BUILD_FIRST` priority 9.0/10). No git operations
 were performed. Nothing has been published.

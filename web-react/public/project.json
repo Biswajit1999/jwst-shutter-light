@@ -35,7 +35,7 @@
     "An instrument-physics QA sandbox; not a replacement for the JWST pipeline or official path-loss corrections.",
     "Models only geometric slit-loss throughput; does not include detector QE, optical-train reflectivity or grating efficiency.",
     "All output is synthetic Monte Carlo data built from verified real instrument parameters, never real NIRSpec telemetry.",
-    "JDox (jwst-docs.stsci.edu) pages returned only client-rendered navigation shells to WebFetch; numeric parameters instead trace to verified peer-reviewed arXiv/A&A papers and the public NASA JWST spacecraft-overview page."
+    "The random non-opening term is a sensitivity boundary from current STScI documentation, not a calibrated probability for a particular target, configuration, or epoch."
   ],
   "citation": {
     "author": "Biswajit Jana",

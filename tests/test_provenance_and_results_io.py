@@ -19,9 +19,10 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 
 def test_real_manifest_is_readable_and_complete():
     rows = read_manifest(REPO_ROOT / "data" / "manifest.csv")
-    assert len(rows) == 8
+    assert len(rows) == 9
     ids = {r["product_id"] for r in rows}
     assert "shutter_operability_fraction" in ids
+    assert "shutter_random_nonopening_boundary" in ids
     for row in rows:
         assert row["source_url"].startswith("http")
         assert row["sha256"] and row["sha256"] != "VERIFICATION_PENDING"
