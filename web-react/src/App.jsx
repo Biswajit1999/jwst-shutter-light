@@ -29,7 +29,7 @@ function useJson(path) {
   const [state, setState] = useState({ data: null, error: null, loading: true });
   useEffect(() => {
     let cancelled = false;
-    fetch(path)
+    fetch(path, { cache: 'no-store' })
       .then((response) => {
         if (!response.ok) throw new Error(`${path}: HTTP ${response.status}`);
         return response.json();
@@ -196,7 +196,7 @@ export default function App() {
           </div>
         </div>
         <div className="hero-stage">
-          <Suspense fallback={<div className="hero-fallback">Building procedural instrument view…</div>}>
+          <Suspense fallback={<div className="hero-fallback">Loading NASA spacecraft model…</div>}>
             <JwstHero />
           </Suspense>
         </div>

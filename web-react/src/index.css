@@ -94,10 +94,13 @@ a { color: inherit; }
   color: rgba(255, 245, 220, 0.6);
   font-size: 0.66rem;
   left: 2.5rem;
-  letter-spacing: 0.13em;
+  letter-spacing: 0.07em;
+  line-height: 1.55;
   position: absolute;
-  text-transform: uppercase;
+  right: 2.5rem;
 }
+.instrument-figure figcaption a { color: var(--gold-pale); text-decoration-color: rgba(232, 196, 96, 0.45); text-underline-offset: 0.2rem; }
+.instrument-figure figcaption a:hover { color: #fff8df; }
 .hero-fallback { align-items: center; color: var(--muted); display: flex; font-size: 0.72rem; height: 100%; justify-content: center; letter-spacing: 0.12em; text-transform: uppercase; }
 
 .demo-banner { align-items: center; background: #4d1e0d; border-bottom: 1px solid #a95825; color: #ffd4a4; display: flex; gap: 0.8rem; padding: 1rem max(1.4rem, calc((100vw - 1460px) / 2 + 2.5rem)); }
@@ -223,7 +226,7 @@ a { color: inherit; }
   .masthead > span { display: none; }
   .hero-copy { padding-top: 4rem; }
   .hero-stage { height: 350px; }
-  .instrument-figure figcaption { left: 1.2rem; }
+  .instrument-figure figcaption { bottom: 0.8rem; left: 1.2rem; right: 1.2rem; }
   .dossier-layout { padding: 3rem 1.2rem 5rem; }
   .index-rail nav { grid-template-columns: 1fr; }
   .confidence-section { margin-left: -1.2rem; margin-right: -1.2rem; padding-left: 1.2rem; padding-right: 1.2rem; }

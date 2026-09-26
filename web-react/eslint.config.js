@@ -3,7 +3,7 @@ import globals from 'globals';
 import hooks from 'eslint-plugin-react-hooks';
 
 export default [
-  { ignores: ['dist'] },
+  { ignores: ['dist', 'public/draco'] },
   js.configs.recommended,
   {
     files: ['**/*.{js,jsx}'],
