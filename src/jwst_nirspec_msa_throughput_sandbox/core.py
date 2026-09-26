@@ -48,10 +48,7 @@ LOGGER = get_logger(__name__)
 
 # Deprecated starter helpers retained only so the original smoke test
 # (tests/test_starter_core.py) keeps passing; not used by run_pipeline.
-from dataclasses import dataclass as _dataclass
-
-
-@_dataclass(frozen=True)
+@dataclass(frozen=True)
 class Summary:
     count: int
     median: float
