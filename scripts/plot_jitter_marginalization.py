@@ -7,9 +7,9 @@ from pathlib import Path
 import matplotlib.pyplot as plt
 import numpy as np
 
-plt.switch_backend("Agg")
-
 from jwst_nirspec_msa_throughput_sandbox.jitter_marginalization import correlated_jitter_mean
+
+plt.switch_backend("Agg")
 
 
 def main() -> None:
