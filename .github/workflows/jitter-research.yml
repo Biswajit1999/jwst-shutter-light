@@ -1,0 +1,29 @@
+name: Conditional MSA jitter diagnostics
+on:
+  push:
+    paths:
+      - 'src/jwst_nirspec_msa_throughput_sandbox/jitter_marginalization.py'
+      - 'tests/test_jitter_marginalization.py'
+      - 'scripts/plot_jitter_marginalization.py'
+      - '.github/workflows/jitter-research.yml'
+  pull_request:
+  workflow_dispatch:
+jobs:
+  diagnostics:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6.0.2
+      - uses: actions/setup-python@5fda3b95a4ea91299a34e894583c3862153e4b97 # v7.0.0
+        with:
+          python-version: '3.11'
+      - run: python -m pip install -e '.[dev]'
+      - run: python -m pytest -q tests/test_jitter_marginalization.py
+      - run: ruff check src tests scripts
+      - run: python -m jwst_nirspec_msa_throughput_sandbox.jitter_marginalization --output results/jitter_marginalization.json
+      - run: python scripts/plot_jitter_marginalization.py --output results/jitter_correlation.png
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: msa-jitter-diagnostics
+          path: |
+            results/jitter_marginalization.json
+            results/jitter_correlation.png
