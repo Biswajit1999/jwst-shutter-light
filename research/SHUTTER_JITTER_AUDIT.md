@@ -1,0 +1,5 @@
+# Conditional open-shutter PSF/jitter sensitivity (2026-11-05)
+
+Addresses [issue #1](https://github.com/Biswajit1999/jwst-shutter-light/issues/1). Three scientific diagnostics: (1) exact analytic Gaussian PSF convolution with independent Gaussian pointing jitter; (2) correlated two-axis jitter expectation using normalized Gauss-Hermite quadrature; (3) centered-offset throughput curvature. Run `python -m unittest discover -s tests -p 'test_shutter_jitter_audit.py'` with NumPy installed.
+
+**Scope:** A separable Gaussian intensity PSF and rectangular, perfectly open aperture, with no diffraction structure, field dependence, intra-shutter bars, wavefront aberration, detector response, or wavelength-dependent instrument calibration. Throughput is conditional on the shutter being operable and commanded open; do not multiply it by static shutter operability. Jitter offsets are bivariate normal with specified means, variances and correlation. No new NIRSpec measurements or calibrated path-loss claims. Scientific code prepared with AI assistance; authenticated Biswajit Jana Git identity used. Requires independent scientific review before merging.
