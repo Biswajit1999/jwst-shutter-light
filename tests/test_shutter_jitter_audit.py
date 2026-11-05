@@ -1,8 +1,17 @@
 import unittest
 from math import erf, sqrt
-from research.shutter_jitter_audit import (
-    axis_fraction, rectangular_throughput, jitter_marginal,
-    correlated_jitter_quadrature, offset_sensitivity)
+import importlib.util
+from pathlib import Path
+
+_spec = importlib.util.spec_from_file_location(
+    "shutter_jitter_audit", Path(__file__).resolve().parents[1] / "research" / "shutter_jitter_audit.py")
+_module = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_module)
+axis_fraction = _module.axis_fraction
+rectangular_throughput = _module.rectangular_throughput
+jitter_marginal = _module.jitter_marginal
+correlated_jitter_quadrature = _module.correlated_jitter_quadrature
+offset_sensitivity = _module.offset_sensitivity
 
 
 class TestShutterJitter(unittest.TestCase):
