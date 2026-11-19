@@ -1,0 +1,76 @@
+{
+  "project": "JWST/NIRSpec Micro-Shutter Throughput Loss Sandbox",
+  "repository": "https://github.com/Biswajit1999/jwst-shutter-light",
+  "files": [
+    {
+      "label": "Provenance",
+      "path": "data/provenance.yml",
+      "role": "Data and provenance"
+    },
+    {
+      "label": "Manifest",
+      "path": "data/manifest.csv",
+      "role": "Data and provenance"
+    },
+    {
+      "label": "Research reference",
+      "path": "data/research-reference.json",
+      "role": "Data and provenance"
+    },
+    {
+      "label": "Demo",
+      "path": "data/example/demo.csv",
+      "role": "Data and provenance"
+    },
+    {
+      "label": "Summary",
+      "path": "results/summary.json",
+      "role": "Tables and numerical results"
+    },
+    {
+      "label": "Sensitivity",
+      "path": "results/sensitivity.json",
+      "role": "Tables and numerical results"
+    },
+    {
+      "label": "Sensitivity designs",
+      "path": "results/sensitivity_designs.csv",
+      "role": "Tables and numerical results"
+    },
+    {
+      "label": "Fig01 msa geometry",
+      "path": "figures/fig01_msa_geometry.json",
+      "role": "Tables and numerical results"
+    },
+    {
+      "label": "Fig02 throughput vs offset",
+      "path": "figures/fig02_throughput_vs_offset.json",
+      "role": "Tables and numerical results"
+    },
+    {
+      "label": "Fig03 wavelength loss",
+      "path": "figures/fig03_wavelength_loss.json",
+      "role": "Tables and numerical results"
+    },
+    {
+      "label": "Fig01 msa geometry",
+      "path": "figures/fig01_msa_geometry.png",
+      "role": "Figures"
+    },
+    {
+      "label": "Fig02 throughput vs offset",
+      "path": "figures/fig02_throughput_vs_offset.png",
+      "role": "Figures"
+    },
+    {
+      "label": "Fig03 wavelength loss",
+      "path": "figures/fig03_wavelength_loss.png",
+      "role": "Figures"
+    },
+    {
+      "label": "Fig04 failed shutter heatmap",
+      "path": "figures/fig04_failed_shutter_heatmap.png",
+      "role": "Figures"
+    }
+  ]
+}
